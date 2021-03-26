@@ -39,6 +39,7 @@ import android.content.ActivityNotFoundException;
 import android.content.Context;
 import android.content.Intent;
 import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.Settings;
@@ -46,6 +47,10 @@ import android.util.Log;
 import android.view.KeyEvent;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.widget.ImageButton;
+import android.widget.ImageView;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.IdRes;
@@ -53,6 +58,8 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
+
+import com.makeramen.roundedimageview.RoundedImageView;
 
 import org.openintents.openpgp.util.OpenPgpApi;
 
@@ -66,6 +73,7 @@ import eu.siacs.conversations.crypto.OmemoSetting;
 import eu.siacs.conversations.databinding.ActivityConversationsBinding;
 import eu.siacs.conversations.entities.Account;
 import eu.siacs.conversations.entities.Conversation;
+import eu.siacs.conversations.entities.Conversational;
 import eu.siacs.conversations.services.XmppConnectionService;
 import eu.siacs.conversations.ui.interfaces.OnBackendConnected;
 import eu.siacs.conversations.ui.interfaces.OnConversationArchived;
@@ -73,6 +81,7 @@ import eu.siacs.conversations.ui.interfaces.OnConversationRead;
 import eu.siacs.conversations.ui.interfaces.OnConversationSelected;
 import eu.siacs.conversations.ui.interfaces.OnConversationsListItemUpdated;
 import eu.siacs.conversations.ui.util.ActivityResult;
+import eu.siacs.conversations.ui.util.AvatarWorkerTask;
 import eu.siacs.conversations.ui.util.ConversationMenuConfigurator;
 import eu.siacs.conversations.ui.util.MenuDoubleTabUtil;
 import eu.siacs.conversations.ui.util.PendingItem;
@@ -353,12 +362,20 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
         }
     }
 
+    public static RoundedImageView iv_profile;
+    TextView tv_name;
+    ImageView iv_back_home;
+
     @Override
     protected void onCreate(final Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         ConversationMenuConfigurator.reloadFeatures(this);
         OmemoSetting.load(this);
         this.binding = DataBindingUtil.setContentView(this, R.layout.activity_conversations);
+        iv_profile = binding.toolbar.findViewById(R.id.iv_profile_pic);
+        iv_back_home = binding.toolbar.findViewById(R.id.iv_back_home);
+
+        tv_name = binding.toolbar.findViewById(R.id.tv_name);
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar());
         this.getFragmentManager().addOnBackStackChangedListener(this::invalidateActionBarTitle);
@@ -600,20 +617,41 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
     }
 
     private void invalidateActionBarTitle() {
+
         final ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             Fragment mainFragment = getFragmentManager().findFragmentById(R.id.main_fragment);
             if (mainFragment instanceof ConversationFragment) {
                 final Conversation conversation = ((ConversationFragment) mainFragment).getConversation();
                 if (conversation != null) {
-                    actionBar.setTitle(EmojiWrapper.transform(conversation.getName()));
+                    tv_name.setText(EmojiWrapper.transform(conversation.getName()));
+                    iv_profile.setVisibility(View.VISIBLE);
+                    AvatarWorkerTask.loadAvatar(conversation, iv_profile, R.dimen.avatar_on_details_screen_size);
 
-                    Log.e("CUSTOM----", "invalidateActionBarTitle: "+conversation.getName() );
-                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    Log.e("CUSTOM----", "invalidateActionBarTitle: " + conversation);
+//                    actionBar.setDisplayHomeAsUpEnabled(true);
+                    iv_back_home.setVisibility(View.VISIBLE);
+                    iv_back_home.setOnClickListener(new View.OnClickListener() {
+                        @Override
+                        public void onClick(View v) {
+                            FragmentManager fm = getFragmentManager();
+                            if (fm.getBackStackEntryCount() > 0) {
+                                try {
+                                    fm.popBackStack();
+                                } catch (IllegalStateException e) {
+                                    Log.w(Config.LOGTAG, "Unable to pop back stack after pressing home button");
+                                }
+                            }
+                        }
+                    });
                     return;
                 }
             }
-            actionBar.setTitle(R.string.app_name);
+            tv_name.setText(R.string.app_name);
+            iv_profile.setVisibility(View.GONE);
+            iv_back_home.setVisibility(View.GONE);
+
+            actionBar.setDisplayShowTitleEnabled(false);
             actionBar.setDisplayHomeAsUpEnabled(false);
         }
     }

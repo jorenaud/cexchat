@@ -3,6 +3,7 @@ package eu.siacs.conversations.ui;
 import android.Manifest;
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.PendingIntent;
@@ -35,6 +36,8 @@ import android.view.MotionEvent;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.EditorInfo;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.AbsListView;
@@ -189,6 +192,8 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     private Toast messageLoaderToast;
     private ConversationsActivity activity;
     private boolean reInitRequiredOnStart = true;
+
+
     private final OnClickListener clickToMuc = new OnClickListener() {
 
         @Override
@@ -920,6 +925,10 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         boolean hasAttachments = mediaPreviewAdapter.hasAttachments();
         binding.textinput.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
         binding.mediaPreview.setVisibility(hasAttachments ? View.VISIBLE : View.GONE);
+        binding.btnAttachedDoc.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+        binding.btnCamera.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+//        binding.layoutmain.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+
         updateSendButton();
     }
 
@@ -1077,13 +1086,29 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         return binding.getRoot();
     }
 
+    Dialog dialog;
+
+
     private void openBottomDailogue() {
 
         View view = activity.getLayoutInflater().inflate(R.layout.custom_dialog_options_menu, null);
-        BottomSheetDialog dialog = new BottomSheetDialog(getActivity());
+        dialog = new Dialog(getActivity());
         dialog.setContentView(view);
+
+        Window window = dialog.getWindow();
+        WindowManager.LayoutParams wlp = window.getAttributes();
+        wlp.width = WindowManager.LayoutParams.WRAP_CONTENT;
+
+        wlp.gravity = Gravity.BOTTOM;
+        wlp.flags &= ~WindowManager.LayoutParams.FLAG_DIM_BEHIND;
+        wlp.x = 0;
+        wlp.y = 150;
+        window.setAttributes(wlp);
+
+        dialog.getWindow().setBackgroundDrawableResource(android.R.color.transparent);
+
         dialog.show();
-        LinearLayout layoutGallery,layoutDoc,layoutcamera,layoutvideo,layoutvoice,layoutlocation;
+        LinearLayout layoutGallery, layoutDoc, layoutcamera, layoutvideo, layoutvoice, layoutlocation;
         layoutDoc = (LinearLayout) view.findViewById(R.id.layoutDoc);
         layoutcamera = (LinearLayout) view.findViewById(R.id.layoutCamera);
         layoutvideo = (LinearLayout) view.findViewById(R.id.layoutRecordVideo);
@@ -1094,7 +1119,8 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
             @Override
             public void onClick(View view) {
                 attachFile(ATTACHMENT_CHOICE_CHOOSE_FILE);
-                dialog.dismiss();            }
+                dialog.dismiss();
+            }
         });
 
         layoutcamera.setOnClickListener(new View.OnClickListener() {

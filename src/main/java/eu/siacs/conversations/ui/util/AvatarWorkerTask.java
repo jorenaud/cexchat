@@ -6,7 +6,9 @@ import android.graphics.Bitmap;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.util.Log;
 import android.widget.ImageView;
+import android.widget.Toast;
 
 import androidx.annotation.DimenRes;
 
@@ -15,7 +17,10 @@ import java.util.concurrent.RejectedExecutionException;
 
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.entities.Account;
+import eu.siacs.conversations.entities.Conversation;
 import eu.siacs.conversations.services.AvatarService;
+import eu.siacs.conversations.ui.ConversationActivity;
+import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.XmppActivity;
 
 public class AvatarWorkerTask extends AsyncTask<AvatarService.Avatarable, Void, Bitmap> {
@@ -87,6 +92,7 @@ public class AvatarWorkerTask extends AsyncTask<AvatarService.Avatarable, Void, 
                 cancelPotentialWork(avatarable, imageView);
                 imageView.setImageBitmap(bm);
                 imageView.setBackgroundColor(0x00000000);
+
             } else {
                 imageView.setBackgroundColor(avatarable.getAvatarBackgroundColor());
                 imageView.setImageDrawable(null);

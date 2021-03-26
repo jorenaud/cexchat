@@ -19,7 +19,9 @@ import eu.siacs.conversations.databinding.ConversationListRowBinding;
 import eu.siacs.conversations.entities.Conversation;
 import eu.siacs.conversations.entities.Conversational;
 import eu.siacs.conversations.entities.Message;
+import eu.siacs.conversations.ui.ConversationActivity;
 import eu.siacs.conversations.ui.ConversationFragment;
+import eu.siacs.conversations.ui.ConversationsActivity;
 import eu.siacs.conversations.ui.XmppActivity;
 import eu.siacs.conversations.ui.util.AvatarWorkerTask;
 import eu.siacs.conversations.ui.util.StyledAttributes;
@@ -205,6 +207,9 @@ public class ConversationAdapter extends RecyclerView.Adapter<ConversationAdapte
         viewHolder.binding.pinnedOnTop.setVisibility(conversation.getBooleanAttribute(Conversation.ATTRIBUTE_PINNED_ON_TOP,false) ? View.VISIBLE : View.GONE);
         viewHolder.binding.conversationLastupdate.setText(UIHelper.readableTimeDifference(activity, timestamp));
         AvatarWorkerTask.loadAvatar(conversation, viewHolder.binding.conversationImage, R.dimen.avatar_on_conversation_overview);
+
+
+
         viewHolder.itemView.setOnClickListener(v -> listener.onConversationClick(v, conversation));
     }
 

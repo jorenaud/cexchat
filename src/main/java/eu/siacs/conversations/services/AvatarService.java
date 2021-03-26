@@ -663,6 +663,7 @@ public class AvatarService implements OnAdvancedStreamFeaturesLoaded {
 			Log.d(Config.LOGTAG, account.getJid().asBareJid() + ": has pep but is not persistent");
 			if (account.getAvatar() != null) {
 				mXmppConnectionService.republishAvatarIfNeeded(account);
+
 			}
 		}
 	}
