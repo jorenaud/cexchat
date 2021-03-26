@@ -126,6 +126,7 @@
                         android:layout_width="30dp"
                         android:layout_height="30dp"
                         android:padding="2dp"
+
                         android:background="?attr/icon_new_attachment"
                         app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintEnd_toStartOf="@+id/btnCamera"
