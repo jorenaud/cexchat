@@ -51,21 +51,21 @@ public class ConversationMenuConfigurator {
 		microphoneAvailable = context.getPackageManager().hasSystemFeature(PackageManager.FEATURE_MICROPHONE);
 	}
 
-	public static void configureAttachmentMenu(@NonNull Conversation conversation, Menu menu) {
-		final MenuItem menuAttach = menu.findItem(R.id.action_attach_file);
-
-		final boolean visible;
-		if (conversation.getMode() == Conversation.MODE_MULTI) {
-			visible = conversation.getAccount().httpUploadAvailable() && conversation.getMucOptions().participating();
-		} else {
-			visible = true;
-		}
-		menuAttach.setVisible(visible);
-		if (!visible) {
-			return;
-		}
-		menu.findItem(R.id.attach_record_voice).setVisible(microphoneAvailable);
-	}
+//	public static void configureAttachmentMenu(@NonNull Conversation conversation, Menu menu) {
+//		final MenuItem menuAttach = menu.findItem(R.id.action_attach_file);
+//
+//		final boolean visible;
+//		if (conversation.getMode() == Conversation.MODE_MULTI) {
+//			visible = conversation.getAccount().httpUploadAvailable() && conversation.getMucOptions().participating();
+//		} else {
+//			visible = true;
+//		}
+//		menuAttach.setVisible(visible);
+//		if (!visible) {
+//			return;
+//		}
+//		menu.findItem(R.id.attach_record_voice).setVisible(microphoneAvailable);
+//	}
 
 	public static void configureEncryptionMenu(@NonNull Conversation conversation, Menu menu) {
 		final MenuItem menuSecure = menu.findItem(R.id.action_security);

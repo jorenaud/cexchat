@@ -59,8 +59,8 @@
         <item name="ic_attach_photo" type="reference">@drawable/ic_attach_photo</item>
         <item name="ic_attach_record" type="reference">@drawable/ic_attach_record</item>
 
-        <item name="ic_make_audio_call" type="reference">@drawable/ic_call_black54_24dp</item>
-        <item name="ic_make_video_call" type="reference">@drawable/ic_videocam_black54_24dp</item>
+        <item name="ic_make_audio_call" type="reference">@drawable/ic_call_white_24dp</item>
+        <item name="ic_make_video_call" type="reference">@drawable/ic_videocam_white_24dp</item>
 
         <item name="message_bubble_received_monochrome" type="reference">
             @drawable/message_bubble_received_white

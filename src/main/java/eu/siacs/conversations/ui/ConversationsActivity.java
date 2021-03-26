@@ -607,6 +607,8 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
                 final Conversation conversation = ((ConversationFragment) mainFragment).getConversation();
                 if (conversation != null) {
                     actionBar.setTitle(EmojiWrapper.transform(conversation.getName()));
+
+                    Log.e("CUSTOM----", "invalidateActionBarTitle: "+conversation.getName() );
                     actionBar.setDisplayHomeAsUpEnabled(true);
                     return;
                 }
