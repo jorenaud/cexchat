@@ -32,6 +32,7 @@ package eu.siacs.conversations.ui.util;
 import android.app.Activity;
 import android.content.SharedPreferences;
 import android.content.res.TypedArray;
+import android.graphics.Color;
 import android.preference.PreferenceManager;
 
 import eu.siacs.conversations.R;
@@ -42,149 +43,233 @@ import eu.siacs.conversations.utils.UIHelper;
 
 public class SendButtonTool {
 
-	public static SendButtonAction getAction(final Activity activity, final Conversation c, final String text) {
-		if (activity == null) {
-			return SendButtonAction.TEXT;
-		}
-		final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
-		final boolean empty = text.length() == 0;
-		final boolean conference = c.getMode() == Conversation.MODE_MULTI;
-		if (c.getCorrectingMessage() != null && (empty || text.equals(c.getCorrectingMessage().getBody()))) {
-			return SendButtonAction.CANCEL;
-		} else if (conference && !c.getAccount().httpUploadAvailable()) {
-			if (empty && c.getNextCounterpart() != null) {
-				return SendButtonAction.CANCEL;
-			} else {
-				return SendButtonAction.TEXT;
-			}
-		} else {
-			if (empty) {
-				if (conference && c.getNextCounterpart() != null) {
-					return SendButtonAction.CANCEL;
-				} else {
-					String setting = preferences.getString("quick_action", activity.getResources().getString(R.string.quick_action));
-					if (!"none".equals(setting) && UIHelper.receivedLocationQuestion(c.getLatestMessage())) {
-						return SendButtonAction.SEND_LOCATION;
-					} else {
-						if ("recent".equals(setting)) {
-							setting = preferences.getString(ConversationFragment.RECENTLY_USED_QUICK_ACTION, SendButtonAction.TEXT.toString());
-							return SendButtonAction.valueOfOrDefault(setting);
-						} else {
-							return SendButtonAction.valueOfOrDefault(setting);
-						}
-					}
-				}
-			} else {
-				return SendButtonAction.TEXT;
-			}
-		}
-	}
+    public static SendButtonAction getAction(final Activity activity, final Conversation c, final String text) {
+        if (activity == null) {
+            return SendButtonAction.TEXT;
+        }
+        final SharedPreferences preferences = PreferenceManager.getDefaultSharedPreferences(activity);
+        final boolean empty = text.length() == 0;
+        final boolean conference = c.getMode() == Conversation.MODE_MULTI;
+        if (c.getCorrectingMessage() != null && (empty || text.equals(c.getCorrectingMessage().getBody()))) {
+            return SendButtonAction.CANCEL;
+        } else if (conference && !c.getAccount().httpUploadAvailable()) {
+            if (empty && c.getNextCounterpart() != null) {
+                return SendButtonAction.CANCEL;
+            } else {
+                return SendButtonAction.TEXT;
+            }
+        } else {
+            if (empty) {
+                if (conference && c.getNextCounterpart() != null) {
+                    return SendButtonAction.CANCEL;
+                } else {
+                    String setting = preferences.getString("quick_action", activity.getResources().getString(R.string.quick_action));
+                    if (!"none".equals(setting) && UIHelper.receivedLocationQuestion(c.getLatestMessage())) {
+                        return SendButtonAction.SEND_LOCATION;
+                    } else {
+                        if ("recent".equals(setting)) {
+                            setting = preferences.getString(ConversationFragment.RECENTLY_USED_QUICK_ACTION, SendButtonAction.TEXT.toString());
+                            return SendButtonAction.valueOfOrDefault(setting);
+                        } else {
+                            return SendButtonAction.valueOfOrDefault(setting);
+                        }
+                    }
+                }
+            } else {
+                return SendButtonAction.TEXT;
+            }
+        }
+    }
 
-	public static int getSendButtonImageResource(Activity activity, SendButtonAction action, Presence.Status status) {
-		switch (action) {
-			case TEXT:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_text_online;
-					case AWAY:
-						return R.drawable.ic_send_text_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_text_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);
-				}
-			case RECORD_VIDEO:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_videocam_online;
-					case AWAY:
-						return R.drawable.ic_send_videocam_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_videocam_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_videocam_offline, R.drawable.ic_send_videocam_offline);
-				}
-			case TAKE_PHOTO:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_photo_online;
-					case AWAY:
-						return R.drawable.ic_send_photo_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_photo_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_photo_offline, R.drawable.ic_send_photo_offline);
-				}
-			case RECORD_VOICE:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_voice_online;
-					case AWAY:
-						return R.drawable.ic_send_voice_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_voice_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_voice_offline, R.drawable.ic_send_voice_offline);
-				}
-			case SEND_LOCATION:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_location_online;
-					case AWAY:
-						return R.drawable.ic_send_location_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_location_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_location_offline, R.drawable.ic_send_location_offline);
-				}
-			case CANCEL:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_cancel_online;
-					case AWAY:
-						return R.drawable.ic_send_cancel_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_cancel_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_cancel_offline, R.drawable.ic_send_cancel_offline);
-				}
-			case CHOOSE_PICTURE:
-				switch (status) {
-					case CHAT:
-					case ONLINE:
-						return R.drawable.ic_send_picture_online;
-					case AWAY:
-						return R.drawable.ic_send_picture_away;
-					case XA:
-					case DND:
-						return R.drawable.ic_send_picture_dnd;
-					default:
-						return getThemeResource(activity, R.attr.ic_send_picture_offline, R.drawable.ic_send_picture_offline);
-				}
-		}
-		return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);
-	}
+    public static int getSendButtonImageResource(Activity activity, SendButtonAction action, Presence.Status status) {
+        switch (action) {
+            case TEXT:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_text_online;
+                    case AWAY:
+                        return R.drawable.ic_send_text_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_text_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);
+                }
+            case RECORD_VIDEO:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_videocam_online;
+                    case AWAY:
+                        return R.drawable.ic_send_videocam_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_videocam_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_videocam_offline, R.drawable.ic_send_videocam_offline);
+                }
+            case TAKE_PHOTO:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_photo_online;
+                    case AWAY:
+                        return R.drawable.ic_send_photo_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_photo_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_photo_offline, R.drawable.ic_send_photo_offline);
+                }
+            case RECORD_VOICE:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_voice_online;
+                    case AWAY:
+                        return R.drawable.ic_send_voice_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_voice_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_voice_offline, R.drawable.ic_send_voice_offline);
+                }
+            case SEND_LOCATION:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_location_online;
+                    case AWAY:
+                        return R.drawable.ic_send_location_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_location_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_location_offline, R.drawable.ic_send_location_offline);
+                }
+            case CANCEL:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_cancel_online;
+                    case AWAY:
+                        return R.drawable.ic_send_cancel_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_cancel_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_cancel_offline, R.drawable.ic_send_cancel_offline);
+                }
+            case CHOOSE_PICTURE:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return R.drawable.ic_send_picture_online;
+                    case AWAY:
+                        return R.drawable.ic_send_picture_away;
+                    case XA:
+                    case DND:
+                        return R.drawable.ic_send_picture_dnd;
+                    default:
+                        return getThemeResource(activity, R.attr.ic_send_picture_offline, R.drawable.ic_send_picture_offline);
+                }
+        }
+        return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);
+    }
 
-	private static int getThemeResource(Activity activity, int r_attr_name, int r_drawable_def) {
-		int[] attrs = {r_attr_name};
-		TypedArray ta = activity.getTheme().obtainStyledAttributes(attrs);
 
-		int res = ta.getResourceId(0, r_drawable_def);
-		ta.recycle();
+    public static int getSendButtonImageBackground(Activity activity, SendButtonAction action, Presence.Status status) {
+        switch (action) {
+            case TEXT:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8ba3a0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case RECORD_VIDEO:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8ba3a0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case TAKE_PHOTO:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8ba3a0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case RECORD_VOICE:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8ba3a0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case SEND_LOCATION:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8ba3a0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case CANCEL:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8bc7c0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+            case CHOOSE_PICTURE:
+                switch (status) {
+                    case CHAT:
+                    case ONLINE:
+                        return Color.parseColor("#8bc7c0");
+                    case AWAY:
+                        return Color.parseColor("#8bc7c0");
+                    case XA:
+                    case DND:
+                        return Color.parseColor("#8bc7c0");
+                }
+        }
+        return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);
+    }
 
-		return res;
-	}
+    private static int getThemeResource(Activity activity, int r_attr_name, int r_drawable_def) {
+        int[] attrs = {r_attr_name};
+        TypedArray ta = activity.getTheme().obtainStyledAttributes(attrs);
+
+        int res = ta.getResourceId(0, r_drawable_def);
+        ta.recycle();
+
+        return res;
+    }
 
 }

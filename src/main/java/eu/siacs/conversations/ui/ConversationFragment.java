@@ -2638,6 +2638,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         final Activity activity = getActivity();
         if (activity != null) {
             this.binding.textSendButton.setImageResource(SendButtonTool.getSendButtonImageResource(activity, action, status));
+            this.binding.textSendButton.setBackgroundColor(SendButtonTool.getSendButtonImageBackground(activity, action, status));
         }
     }
 
