@@ -80,6 +80,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
     private static final int RECEIVED = 1;
     private static final int STATUS = 2;
     private static final int DATE_SEPARATOR = 3;
+    private static final int SECURITY_MESSAGE = 5;
     private static final int RTP_SESSION = 4;
     private final XmppActivity activity;
     private final AudioPlayer audioPlayer;
@@ -148,6 +149,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         } else {
             return SENT;
         }
+
     }
 
     @Override
@@ -614,6 +616,8 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         if (view == null) {
             viewHolder = new ViewHolder();
             switch (type) {
+                case  SECURITY_MESSAGE:
+
                 case DATE_SEPARATOR:
                     view = activity.getLayoutInflater().inflate(R.layout.message_date_bubble, parent, false);
                     viewHolder.status_message = view.findViewById(R.id.message_body);

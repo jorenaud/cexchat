@@ -462,9 +462,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                             } else {
                                 binding.textinput.setText("");
                             }
-                            updateChatMsgHint();
+//                            updateChatMsgHint();
                             updateSendButton();
-                            updateEditablity();
+//                            updateEditablity();
                         }
                         break;
                     default:
@@ -797,26 +797,26 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         }
     }
 
-    public void updateChatMsgHint() {
-        final boolean multi = conversation.getMode() == Conversation.MODE_MULTI;
-        if (conversation.getCorrectingMessage() != null) {
-            this.binding.textInputHint.setVisibility(View.GONE);
-            this.binding.textinput.setHint(R.string.send_corrected_message);
-        } else if (multi && conversation.getNextCounterpart() != null) {
-            this.binding.textinput.setHint(R.string.send_unencrypted_message);
-            this.binding.textInputHint.setVisibility(View.VISIBLE);
-            this.binding.textInputHint.setText(getString(
-                    R.string.send_private_message_to,
-                    conversation.getNextCounterpart().getResource()));
-        } else if (multi && !conversation.getMucOptions().participating()) {
-            this.binding.textInputHint.setVisibility(View.GONE);
-            this.binding.textinput.setHint(R.string.you_are_not_participating);
-        } else {
-            this.binding.textInputHint.setVisibility(View.GONE);
-            this.binding.textinput.setHint(UIHelper.getMessageHint(getActivity(), conversation));
-            getActivity().invalidateOptionsMenu();
-        }
-    }
+//    public void updateChatMsgHint() {
+//        final boolean multi = conversation.getMode() == Conversation.MODE_MULTI;
+//        if (conversation.getCorrectingMessage() != null) {
+////            this.binding.textInputHint.setVisibility(View.GONE);
+//            this.binding.textinput.setHint(R.string.send_corrected_message);
+//        } else if (multi && conversation.getNextCounterpart() != null) {
+//            this.binding.textinput.setHint(R.string.send_unencrypted_message);
+////            this.binding.textInputHint.setVisibility(View.VISIBLE);
+////            this.binding.textInputHint.setText(getString(
+////                    R.string.send_private_message_to,
+////                    conversation.getNextCounterpart().getResource()));
+//        } else if (multi && !conversation.getMucOptions().participating()) {
+////            this.binding.textInputHint.setVisibility(View.GONE);
+//            this.binding.textinput.setHint(R.string.you_are_not_participating);
+//        } else {
+////            this.binding.textInputHint.setVisibility(View.GONE);
+//            this.binding.textinput.setHint(UIHelper.getMessageHint(getActivity(), conversation));
+//            getActivity().invalidateOptionsMenu();
+//        }
+//    }
 
     public void setupIme() {
         this.binding.textinput.refreshIme();
@@ -927,9 +927,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         boolean hasAttachments = mediaPreviewAdapter.hasAttachments();
         binding.textinput.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
         binding.mediaPreview.setVisibility(hasAttachments ? View.VISIBLE : View.GONE);
-        binding.btnAttachedDoc.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
-        binding.btnCamera.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
-//        binding.layoutmain.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+//        binding.btnAttachedDoc.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+//        binding.btnCamera.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+        binding.layoutmain.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
 
         updateSendButton();
     }
@@ -1046,7 +1046,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
         binding.getRoot().setOnClickListener(null); //TODO why the fuck did we do this?
 
+        binding.textinput.setText("a");
         binding.textinput.setMovementMethod(new ScrollingMovementMethod());
+
 
         binding.imgEmotic.setOnClickListener(new OnClickListener() {
             @Override
@@ -1067,7 +1069,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         binding.textinput.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-
+                binding.textinput.setCursorVisible(true);
             }
 
             @Override
@@ -1608,7 +1610,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         if (updated) {
             activity.xmppConnectionService.updateConversation(conversation);
         }
-        updateChatMsgHint();
+//        updateChatMsgHint();
         getActivity().invalidateOptionsMenu();
         activity.refreshUi();
     }
@@ -2062,9 +2064,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         }
         this.binding.textinput.setText("");
         this.conversation.setNextCounterpart(counterpart);
-        updateChatMsgHint();
+//        updateChatMsgHint();
         updateSendButton();
-        updateEditablity();
+//        updateEditablity();
     }
 
     private void correctMessage(Message message) {
@@ -2551,12 +2553,12 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     binding.unreadCountCustomView.setUnreadCount(conversation.getReceivedMessagesCountSinceUuid(lastMessageUuid));
                 }
                 this.messageListAdapter.notifyDataSetChanged();
-                updateChatMsgHint();
+//                updateChatMsgHint();
                 if (notifyConversationRead && activity != null) {
                     binding.messagesView.post(this::fireReadEvent);
                 }
                 updateSendButton();
-                updateEditablity();
+//                updateEditablity();
             }
         }
     }
@@ -2569,7 +2571,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
             conversation.setDraftMessage(null);
         }
         storeNextMessage();
-        updateChatMsgHint();
+//        updateChatMsgHint();
         SharedPreferences p = PreferenceManager.getDefaultSharedPreferences(activity);
         final boolean prefScrollToBottom = p.getBoolean("scroll_to_bottom", activity.getResources().getBoolean(R.bool.scroll_to_bottom));
         if (prefScrollToBottom || scrolledToBottom()) {
