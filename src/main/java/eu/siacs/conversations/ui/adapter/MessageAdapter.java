@@ -132,7 +132,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     @Override
     public int getViewTypeCount() {
-        return 5;
+        return 6;
     }
 
     private int getItemViewType(Message message) {
@@ -142,6 +142,8 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             } else {
                 return STATUS;
             }
+        } else if (message.getType() == Message.SECURITY_TYPE) {
+            return SECURITY_MESSAGE;
         } else if (message.getType() == Message.TYPE_RTP_SESSION) {
             return RTP_SESSION;
         } else if (message.getStatus() <= Message.STATUS_RECEIVED) {
@@ -154,6 +156,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
 
     @Override
     public int getItemViewType(int position) {
+
         return this.getItemViewType(getItem(position));
     }
 
@@ -616,7 +619,9 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         if (view == null) {
             viewHolder = new ViewHolder();
             switch (type) {
-                case  SECURITY_MESSAGE:
+                case SECURITY_MESSAGE:
+                    view = activity.getLayoutInflater().inflate(R.layout.message_security_layout, parent, false);
+                    break;
 
                 case DATE_SEPARATOR:
                     view = activity.getLayoutInflater().inflate(R.layout.message_date_bubble, parent, false);
@@ -685,6 +690,8 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 viewHolder.status_message.setText(DateUtils.formatDateTime(activity, message.getTimeSent(), DateUtils.FORMAT_SHOW_DATE | DateUtils.FORMAT_SHOW_YEAR));
             }
             viewHolder.message_box.setBackgroundResource(activity.isDarkTheme() ? R.drawable.date_bubble_grey : R.drawable.date_bubble_white);
+            return view;
+        } else if (type == SECURITY_MESSAGE) {
             return view;
         } else if (type == RTP_SESSION) {
             final boolean isDarkTheme = activity.isDarkTheme();

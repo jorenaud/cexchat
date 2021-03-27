@@ -1046,7 +1046,12 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
         binding.getRoot().setOnClickListener(null); //TODO why the fuck did we do this?
 
-        binding.textinput.setText("a");
+        binding.textinput.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                binding.textinput.setCursorVisible(true);
+            }
+        });
         binding.textinput.setMovementMethod(new ScrollingMovementMethod());
 
 
@@ -2649,8 +2654,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 
     protected void updateStatusMessages() {
         DateSeparator.addAll(this.messageList);
+        this.messageList.add(0, Message.defaultMessage(conversation));
         if (showLoadMoreMessages(conversation)) {
-            this.messageList.add(0, Message.createLoadMoreMessage(conversation));
+            this.messageList.add(1, Message.createLoadMoreMessage(conversation));
         }
         if (conversation.getMode() == Conversation.MODE_SINGLE) {
             ChatState state = conversation.getIncomingChatState();

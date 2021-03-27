@@ -114,7 +114,7 @@
                         android:background="@android:color/transparent"
                         android:cursorVisible="true"
                         android:ems="10"
-                        android:gravity="start"
+                        android:gravity="start|center_vertical"
                         android:hint="@string/send_omemo_message"
                         android:imeOptions="flagNoExtractUi|actionSend"
                         android:inputType="text|textMultiLine|textCapSentences"

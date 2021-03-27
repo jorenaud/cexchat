@@ -86,6 +86,7 @@ public class Message extends AbstractEntity implements AvatarService.Avatarable 
 	public static final String ME_COMMAND = "/me ";
 
 	public static final String ERROR_MESSAGE_CANCELLED = "eu.siacs.conversations.cancelled";
+	public static final int SECURITY_TYPE = 23;
 
 
 	public boolean markable = false;
@@ -264,6 +265,14 @@ public class Message extends AbstractEntity implements AvatarService.Avatarable 
 		message.body = "LOAD_MORE";
 		return message;
 	}
+
+	public static Message defaultMessage(Conversation conversation) {
+		final Message message = new Message(conversation);
+		message.setType(Message.SECURITY_TYPE);
+		message.body = "LOAD_MORE";
+		return message;
+	}
+
 
 	@Override
 	public ContentValues getContentValues() {
