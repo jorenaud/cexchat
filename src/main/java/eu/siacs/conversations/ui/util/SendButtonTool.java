@@ -185,78 +185,78 @@ public class SendButtonTool {
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
                         return Color.parseColor("#8ba3a0");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case RECORD_VIDEO:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
                         return Color.parseColor("#8ba3a0");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case TAKE_PHOTO:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
                         return Color.parseColor("#8ba3a0");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case RECORD_VOICE:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
                         return Color.parseColor("#8ba3a0");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case SEND_LOCATION:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
                         return Color.parseColor("#8ba3a0");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case CANCEL:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
             case CHOOSE_PICTURE:
                 switch (status) {
                     case CHAT:
                     case ONLINE:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case AWAY:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                     case XA:
                     case DND:
-                        return Color.parseColor("#8bc7c0");
+                        return Color.parseColor("#D2F0A7");
                 }
         }
         return getThemeResource(activity, R.attr.ic_send_text_offline, R.drawable.ic_send_text_offline);

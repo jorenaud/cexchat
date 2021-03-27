@@ -25,6 +25,7 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
+import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.ContextMenu;
 import android.view.ContextMenu.ContextMenuInfo;
@@ -1044,6 +1045,8 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
         binding.getRoot().setOnClickListener(null); //TODO why the fuck did we do this?
+
+        binding.textinput.setMovementMethod(new ScrollingMovementMethod());
 
         binding.imgEmotic.setOnClickListener(new OnClickListener() {
             @Override
