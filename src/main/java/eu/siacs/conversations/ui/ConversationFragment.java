@@ -22,6 +22,7 @@ import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -1038,11 +1039,48 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         super.onCreateOptionsMenu(menu, menuInflater);
     }
 
+
     @Override
     public View onCreateView(final LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
         binding.getRoot().setOnClickListener(null); //TODO why the fuck did we do this?
 
+        binding.imgEmotic.setOnClickListener(new OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (binding.textinput.getInputType() == InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE) {
+                    binding.imgEmotic.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
+                    binding.textinput.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+
+                } else {
+                    binding.imgEmotic.setImageResource(R.drawable.ic_baseline_keyboard_24);
+                    binding.textinput.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+
+                }
+            }
+        });
+
+
+        binding.textinput.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                if (s.length() > 0) {
+                    binding.btnCamera.setVisibility(View.GONE);
+                } else {
+                    binding.btnCamera.setVisibility(View.VISIBLE);
+                }
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
         binding.textinput.setOnEditorActionListener(mEditorActionListener);
         binding.textinput.setRichContentListener(new String[]{"image/*"}, mEditorContentListener);
