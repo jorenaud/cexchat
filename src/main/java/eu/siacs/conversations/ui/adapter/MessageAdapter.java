@@ -7,6 +7,7 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Typeface;
 import android.preference.PreferenceManager;
+import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
 import android.text.SpannableStringBuilder;
@@ -621,6 +622,8 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             switch (type) {
                 case SECURITY_MESSAGE:
                     view = activity.getLayoutInflater().inflate(R.layout.message_security_layout, parent, false);
+                    viewHolder.security_message= view.findViewById(R.id.security_message);
+                    viewHolder.security_message.setText(Html.fromHtml("<font color='black'>"+"\uD83D\uDD12 "+"</font>")+"Messages and calls are end-to-end encrypted.No one outside of this chat, not even Conversation, can read or listen to them. Tap to learn more.");
                     break;
 
                 case DATE_SEPARATOR:
@@ -941,5 +944,6 @@ public class MessageAdapter extends ArrayAdapter<Message> {
         protected ImageView contact_picture;
         protected TextView status_message;
         protected TextView encryption;
+        protected TextView security_message;
     }
 }
