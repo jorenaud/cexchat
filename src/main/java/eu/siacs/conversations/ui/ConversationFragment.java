@@ -1186,10 +1186,11 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 //        security_message.setText(Html.fromHtml("<font color='black'>"+"\uD83D\uDD12 "+"</font>")+"Messages and calls are end-to-end encrypted.No one outside of this chat, not even Conversation, can read or listen to them. Tap to learn more.");
 //        binding.messagesView.addHeaderView(headerview);
 
-
         LayoutInflater myinflater = getActivity().getLayoutInflater();
         ViewGroup myHeader = (ViewGroup)myinflater.inflate(R.layout.message_security_layout, binding.messagesView, false);
         binding.messagesView.addHeaderView(myHeader, null, false);
+
+
 
         binding.messagesView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         mediaPreviewAdapter = new MediaPreviewAdapter(this);
@@ -1999,6 +2000,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                 activity.onConversationRead(this.conversation, uuid);
             }
         }
+
     }
 
     private String getLastVisibleMessageUuid() {
@@ -2016,9 +2018,12 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                         //should not happen if we synchronize properly. however if that fails we just gonna try item -1
                         continue;
                     }
-                    if (message.getType() != Message.TYPE_STATUS) {
-                        break;
-                    }
+//                    if (message.getType() != Message.TYPE_STATUS ) {
+//                        break;
+//                    }
+//                    if(message.getType() == 0){
+//                        break;
+//                    }
                 }
                 if (message != null) {
                     while (message.next() != null && message.next().wasMergedIntoPrevious()) {
@@ -2026,6 +2031,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     }
                     return message.getUuid();
                 }
+
             }
         }
         return null;
