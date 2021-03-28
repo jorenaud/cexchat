@@ -219,7 +219,7 @@ android {
             }
         }
     }
-
+    buildToolsVersion
     buildTypes {
         release {
             shrinkResources true

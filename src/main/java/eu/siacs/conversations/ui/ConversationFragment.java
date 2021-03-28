@@ -2632,6 +2632,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     binding.unreadCountCustomView.setUnreadCount(conversation.getReceivedMessagesCountSinceUuid(lastMessageUuid));
                 }
                 this.messageListAdapter.notifyDataSetChanged();
+
 //                updateChatMsgHint();
                 if (notifyConversationRead && activity != null) {
                     binding.messagesView.post(this::fireReadEvent);

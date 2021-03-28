@@ -12,11 +12,14 @@
         <ListView
             android:id="@+id/messages_view"
             android:layout_width="fill_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:layout_alignParentStart="true"
             android:background="?attr/color_background_secondary"
             android:divider="@null"
             android:dividerHeight="0dp"
+            android:layout_alignParentTop="true"
+            android:foregroundGravity="top"
+            android:layout_above="@id/textsend"
             android:listSelector="@android:color/transparent"
             tools:listheader="@layout/message_security_layout"
             tools:listitem="@layout/message_sent" />
