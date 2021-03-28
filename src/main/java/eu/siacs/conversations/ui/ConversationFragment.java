@@ -2020,6 +2020,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     }
 //                    if (message.getType() != Message.TYPE_STATUS ) {
 //                        break;
+
 //                    }
 //                    if(message.getType() == 0){
 //                        break;
