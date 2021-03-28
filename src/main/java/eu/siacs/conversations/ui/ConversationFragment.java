@@ -18,10 +18,12 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.SystemClock;
 import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.text.Editable;
+import android.text.Html;
 import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
@@ -51,6 +53,7 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.PopupMenu;
 import android.widget.PopupWindow;
+import android.widget.TextView;
 import android.widget.TextView.OnEditorActionListener;
 import android.widget.Toast;
 
@@ -738,30 +741,46 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     }
 
     private void sendMessage() {
-        if (mediaPreviewAdapter.hasAttachments()) {
-            commitAttachments();
-            return;
-        }
+
         final Editable text = this.binding.textinput.getText();
         final String body = text == null ? "" : text.toString();
         final Conversation conversation = this.conversation;
+
+
+
         if (body.length() == 0 || conversation == null) {
             return;
         }
+
         if (conversation.getNextEncryption() == Message.ENCRYPTION_AXOLOTL && trustKeysIfNeeded(REQUEST_TRUST_KEYS_TEXT)) {
             return;
         }
-        final Message message;
+
+        final Message message ;
+
         if (conversation.getCorrectingMessage() == null) {
             message = new Message(conversation, body, conversation.getNextEncryption());
             Message.configurePrivateMessage(message);
-        } else {
+        }
+        else {
             message = conversation.getCorrectingMessage();
             message.setBody(body);
             message.putEdited(message.getUuid(), message.getServerMsgId());
             message.setServerMsgId(null);
             message.setUuid(UUID.randomUUID().toString());
         }
+
+        if (mediaPreviewAdapter.hasAttachments()  && message!=null) {
+            commitAttachments(message);
+
+            return;
+        }
+
+        if (mediaPreviewAdapter.hasAttachments()) {
+            commitAttachments();
+            return;
+        }
+
         switch (conversation.getNextEncryption()) {
             case Message.ENCRYPTION_PGP:
                 sendPgpMessage(message);
@@ -913,6 +932,53 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         }
     }
 
+    private void commitAttachments(Message message) {
+        final List<Attachment> attachments = mediaPreviewAdapter.getAttachments();
+        if (anyNeedsExternalStoragePermission(attachments) && !hasPermissions(REQUEST_COMMIT_ATTACHMENTS, Manifest.permission.WRITE_EXTERNAL_STORAGE)) {
+            return;
+        }
+        if (conversation.getNextEncryption() == Message.ENCRYPTION_AXOLOTL && trustKeysIfNeeded(REQUEST_TRUST_KEYS_ATTACHMENTS)) {
+            return;
+        }
+        final PresenceSelector.OnPresenceSelected callback = () -> {
+            for (Iterator<Attachment> i = attachments.iterator(); i.hasNext(); i.remove()) {
+                final Attachment attachment = i.next();
+                if (attachment.getType() == Attachment.Type.LOCATION) {
+                    attachLocationToConversation(conversation, attachment.getUri());
+                } else if (attachment.getType() == Attachment.Type.IMAGE) {
+                    Log.d(Config.LOGTAG, "ConversationsActivity.commitAttachments() - attaching image to conversations. CHOOSE_IMAGE");
+                    attachImageToConversation(conversation, attachment.getUri());
+                } else {
+                    Log.d(Config.LOGTAG, "ConversationsActivity.commitAttachments() - attaching file to conversations. CHOOSE_FILE/RECORD_VOICE/RECORD_VIDEO");
+                    attachFileToConversation(conversation, attachment.getUri(), attachment.getMime());
+                }
+                if ( ! i.hasNext()) {
+
+                    final Handler handler = new Handler(Looper.getMainLooper());
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            //Do something after 100ms
+                            sendMessage(message);
+                        }
+                    }, 1000);
+
+                }
+
+            }
+
+            mediaPreviewAdapter.notifyDataSetChanged();
+            toggleInputMethod();
+        };
+        if (conversation == null
+                || conversation.getMode() == Conversation.MODE_MULTI
+                || Attachment.canBeSendInband(attachments)
+                || (conversation.getAccount().httpUploadAvailable() && FileBackend.allFilesUnderSize(getActivity(), attachments, getMaxHttpUploadSize(conversation)))) {
+            callback.onPresenceSelected();
+        } else {
+            activity.selectPresence(conversation, callback);
+        }
+    }
 
     private static boolean anyNeedsExternalStoragePermission(final Collection<Attachment> attachments) {
         for (final Attachment attachment : attachments) {
@@ -925,12 +991,12 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 
     public void toggleInputMethod() {
         boolean hasAttachments = mediaPreviewAdapter.hasAttachments();
-        binding.textinput.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+//        binding.textinput.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
         binding.mediaPreview.setVisibility(hasAttachments ? View.VISIBLE : View.GONE);
 //        binding.btnAttachedDoc.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
 //        binding.btnCamera.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
-        binding.layoutmain.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
-
+//        binding.layoutmain.setVisibility(hasAttachments ? View.GONE : View.VISIBLE);
+//
         updateSendButton();
     }
 
@@ -1046,13 +1112,10 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         this.binding = DataBindingUtil.inflate(inflater, R.layout.fragment_conversation, container, false);
         binding.getRoot().setOnClickListener(null); //TODO why the fuck did we do this?
 
-        binding.textinput.setOnClickListener(new OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.textinput.setCursorVisible(true);
-            }
-        });
-        binding.textinput.setMovementMethod(new ScrollingMovementMethod());
+        binding.textinput.setFocusableInTouchMode(true);
+        binding.textinput.setFocusable(true);
+        binding.textinput.setCursorVisible(true);
+//        binding.textinput.setMovementMethod(new ScrollingMovementMethod());
 
 
         binding.imgEmotic.setOnClickListener(new OnClickListener() {
@@ -1117,6 +1180,17 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 
         binding.scrollToBottomButton.setOnClickListener(this.mScrollButtonListener);
         binding.messagesView.setOnScrollListener(mOnScrollListener);
+
+//        View headerview = ((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE)).inflate(R.layout.message_security_layout, null, false);
+//        TextView security_message= headerview.findViewById(R.id.security_message);
+//        security_message.setText(Html.fromHtml("<font color='black'>"+"\uD83D\uDD12 "+"</font>")+"Messages and calls are end-to-end encrypted.No one outside of this chat, not even Conversation, can read or listen to them. Tap to learn more.");
+//        binding.messagesView.addHeaderView(headerview);
+
+
+        LayoutInflater myinflater = getActivity().getLayoutInflater();
+        ViewGroup myHeader = (ViewGroup)myinflater.inflate(R.layout.message_security_layout, binding.messagesView, false);
+        binding.messagesView.addHeaderView(myHeader, null, false);
+
         binding.messagesView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
         mediaPreviewAdapter = new MediaPreviewAdapter(this);
         binding.mediaPreview.setAdapter(mediaPreviewAdapter);
@@ -2654,9 +2728,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 
     protected void updateStatusMessages() {
         DateSeparator.addAll(this.messageList);
-        this.messageList.add(0, Message.defaultMessage(conversation));
+//        this.messageList.add(0, Message.defaultMessage(conversation));
         if (showLoadMoreMessages(conversation)) {
-            this.messageList.add(1, Message.createLoadMoreMessage(conversation));
+            this.messageList.add(0, Message.createLoadMoreMessage(conversation));
         }
         if (conversation.getMode() == Conversation.MODE_SINGLE) {
             ChatState state = conversation.getIncomingChatState();

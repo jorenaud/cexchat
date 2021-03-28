@@ -12,10 +12,11 @@
         android:layout_marginStart="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginEnd="20dp"
+        android:layout_marginBottom="10dp"
         android:background="@drawable/bg_security_message"
         android:gravity="center"
         android:padding="5dp"
-
+android:text="🔒 Messages and calls are end-to-end encrypted.No one outside of this chat, not even Conversation, can read or listen to them. Tap to learn more."
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />

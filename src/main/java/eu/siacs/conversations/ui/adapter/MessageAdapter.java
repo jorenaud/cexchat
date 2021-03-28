@@ -143,9 +143,11 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             } else {
                 return STATUS;
             }
-        } else if (message.getType() == Message.SECURITY_TYPE) {
-            return SECURITY_MESSAGE;
-        } else if (message.getType() == Message.TYPE_RTP_SESSION) {
+        }
+//        else if (message.getType() == Message.SECURITY_TYPE) {
+//            return SECURITY_MESSAGE;
+//        }
+        else if (message.getType() == Message.TYPE_RTP_SESSION) {
             return RTP_SESSION;
         } else if (message.getStatus() <= Message.STATUS_RECEIVED) {
             return RECEIVED;
