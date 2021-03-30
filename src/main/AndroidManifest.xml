@@ -54,6 +54,7 @@
 
 
     <application
+        android:name=".EmojiApplication"
         android:allowBackup="false"
         android:appCategory="social"
         android:hardwareAccelerated="true"

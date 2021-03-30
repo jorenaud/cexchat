@@ -849,7 +849,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
                 if (!mUseGreenBackground) {
                     bubble = activity.getThemeResource(R.attr.message_bubble_received_monochrome, R.drawable.message_bubble_received_white);
                 } else {
-                    bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.message_bubble_received);
+                    bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.final_lalo);
                 }
                 viewHolder.message_box.setBackgroundResource(bubble);
                 viewHolder.encryption.setVisibility(View.GONE);

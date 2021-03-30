@@ -13,16 +13,17 @@
             android:id="@+id/messages_view"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
+            android:layout_above="@id/layoutmain"
             android:layout_alignParentStart="true"
+            android:layout_alignParentTop="true"
             android:background="?attr/color_background_secondary"
             android:divider="@null"
             android:dividerHeight="0dp"
-            android:layout_alignParentTop="true"
             android:foregroundGravity="top"
-            android:layout_above="@id/layoutmain"
             android:listSelector="@android:color/transparent"
             tools:listheader="@layout/message_security_layout"
             tools:listitem="@layout/message_sent" />
+
 
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -59,113 +60,114 @@
             android:id="@+id/media_preview"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
+            android:layout_above="@id/layoutmain"
+            android:layout_alignParentStart="true"
             android:orientation="horizontal"
             android:paddingTop="8dp"
             android:requiresFadingEdge="horizontal"
             android:visibility="gone"
             app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-            tools:listitem="@layout/media_preview"
-            android:layout_above="@id/layoutmain"
-            android:layout_alignParentStart="true"/>
+            tools:listitem="@layout/media_preview" />
 
 
 
-            <androidx.constraintlayout.widget.ConstraintLayout
-                android:id="@+id/layoutmain"
+
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layoutmain"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginStart="2dp"
+            android:layout_marginEnd="50dp"
+            android:layout_marginBottom="2dp"
+            android:background="@drawable/bg_round_corner_edittext">
+
+            <ImageView
+                android:id="@+id/imgEmotic"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginStart="3dp"
+                android:padding="4dp"
+                android:src="@drawable/ic_baseline_insert_emoticon_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+
+            <eu.siacs.conversations.ui.widget.EditMessage
+                android:id="@+id/textinput"
+                style="@style/Widget.Conversations.EditText"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="2dp"
-                android:layout_alignParentBottom="true"
-                android:layout_marginEnd="50dp"
-                android:layout_marginBottom="2dp"
-                android:background="@drawable/bg_round_corner_edittext">
+                android:layout_marginStart="30dp"
+                android:layout_marginEnd="30dp"
+                android:background="@android:color/transparent"
+                android:cursorVisible="true"
+                android:ems="10"
+                android:gravity="center_vertical"
+                android:hint="@string/send_omemo_message"
+                android:imeOptions="flagNoExtractUi|actionSend"
+                android:inputType="text|textMultiLine|textCapSentences"
+                android:maxLines="8"
+                android:minWidth="120dp"
+                android:minHeight="48dp"
+                android:minLines="1"
+                android:padding="5dp"
+                android:scrollIndicators="end"
+                android:scrollbarStyle="insideOverlay"
+                android:scrollbars="vertical"
+                android:textColor="#000"
+                android:textColorHint="#8E8E8E"
+                android:textSize="14sp"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="@+id/imgEmotic"
+                app:layout_constraintTop_toTopOf="parent">
 
-                <ImageView
-                    android:id="@+id/imgEmotic"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginStart="3dp"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_baseline_insert_emoticon_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+                <requestFocus />
+            </eu.siacs.conversations.ui.widget.EditMessage>
 
-                <eu.siacs.conversations.ui.widget.EditMessage
-                    android:id="@+id/textinput"
-                    style="@style/Widget.Conversations.EditText"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:layout_marginStart="30dp"
-                    android:layout_marginEnd="30dp"
-                    android:background="@android:color/transparent"
-                    android:cursorVisible="true"
-                    android:ems="10"
-                    android:gravity="center_vertical"
-                    android:hint="@string/send_omemo_message"
-                    android:imeOptions="flagNoExtractUi|actionSend"
-                    android:inputType="text|textMultiLine|textCapSentences"
-                    android:maxLines="8"
-                    android:minWidth="120dp"
-                    android:textSize="14sp"
-                    android:minHeight="48dp"
-                    android:minLines="1"
-                    android:padding="5dp"
-                    android:scrollIndicators="end"
-                    android:scrollbarStyle="insideOverlay"
-                    android:scrollbars="vertical"
-                    android:textColor="#000"
-                    android:textColorHint="#8E8E8E"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="@+id/imgEmotic"
-                    app:layout_constraintTop_toTopOf="parent">
-
-                    <requestFocus />
-                </eu.siacs.conversations.ui.widget.EditMessage>
-
-                <ImageButton
-                    android:id="@+id/btnAttachedDoc"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:background="@android:color/transparent"
-                    android:padding="4dp"
-                    android:src="@drawable/ic_attachment"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toStartOf="@+id/btnCamera"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/btnAttachedDoc"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:background="@android:color/transparent"
+                android:padding="4dp"
+                android:src="@drawable/ic_attachment"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toStartOf="@+id/btnCamera"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-                <ImageButton
-                    android:id="@+id/btnCamera"
-                    android:layout_width="30dp"
-                    android:layout_height="30dp"
-                    android:layout_marginEnd="3dp"
-                    android:background="@android:color/transparent"
-                    android:src="@drawable/ic_baseline_photo_camera_24"
-                    app:layout_constraintBottom_toBottomOf="parent"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
+            <ImageButton
+                android:id="@+id/btnCamera"
+                android:layout_width="30dp"
+                android:layout_height="30dp"
+                android:layout_marginEnd="3dp"
+                android:background="@android:color/transparent"
+                android:src="@drawable/ic_baseline_photo_camera_24"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
 
 
-            </androidx.constraintlayout.widget.ConstraintLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-            <com.makeramen.roundedimageview.RoundedImageView
-                android:id="@+id/textSendButton"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_alignParentEnd="true"
-                android:layout_alignParentBottom="true"
-                android:layout_margin="3dp"
-                android:background="#008878"
-                android:contentDescription="@string/send_message"
-                android:padding="8dp"
-                android:scaleType="centerCrop"
-                android:src="?attr/ic_send_text_offline"
-                app:riv_corner_radius="30dp"
-                app:riv_mutate_background="true" />
-
-
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/textSendButton"
+            android:layout_width="40dp"
+            android:layout_height="40dp"
+            android:layout_alignParentEnd="true"
+            android:layout_alignParentBottom="true"
+            android:layout_margin="3dp"
+            android:background="#008878"
+            android:contentDescription="@string/send_message"
+            android:padding="8dp"
+            android:scaleType="centerCrop"
+            android:src="?attr/ic_send_text_offline"
+            app:riv_corner_radius="30dp"
+            app:riv_mutate_background="true" />
 
 
         <RelativeLayout

@@ -70,6 +70,7 @@ import androidx.databinding.DataBindingUtil;
 import com.google.android.material.bottomsheet.BottomSheetDialog;
 import com.google.android.material.bottomsheet.BottomSheetDialogFragment;
 import com.google.common.base.Optional;
+import com.vanniktech.emoji.EmojiPopup;
 
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -216,8 +217,8 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
             activity.xmppConnectionService.archiveConversation(conversation);
         }
     };
-    private final OnClickListener joinMuc = new OnClickListener() {
 
+    private final OnClickListener joinMuc = new OnClickListener() {
         @Override
         public void onClick(View v) {
             activity.xmppConnectionService.joinMuc(conversation);
@@ -743,7 +744,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     private void sendMessage() {
         if (mediaPreviewAdapter.hasAttachments()) {
             commitAttachments();
-                    }
+        }
         final Editable text = this.binding.textinput.getText();
         final String body = text == null ? "" : text.toString();
         final Conversation conversation = this.conversation;
@@ -769,11 +770,10 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                 sendPgpMessage(message);
                 break;
             default:
-                if (mediaPreviewAdapter.hasAttachments() && message!= null) {
+                if (mediaPreviewAdapter.hasAttachments() && message != null) {
                     commitAttachments();
                     sendMessage(message);
-                }
-                else{
+                } else {
                     sendMessage(message);
                 }
 
@@ -949,8 +949,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            if (message.getBody() != null){
-                                sendMessage(message);}
+                            if (message.getBody() != null) {
+                                sendMessage(message);
+                            }
                         }
                     }, 1000);
 
@@ -1106,20 +1107,34 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         binding.textinput.setFocusableInTouchMode(true);
         binding.textinput.setFocusable(true);
         binding.textinput.setCursorVisible(true);
+
+
+        final EmojiPopup popup = EmojiPopup.Builder
+                .fromRootView(binding.getRoot()).build(binding.textinput);
+
 //        binding.textinput.setMovementMethod(new ScrollingMovementMethod());
 
-
+//
         binding.imgEmotic.setOnClickListener(new OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.textinput.getInputType() == InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE) {
+//                if (binding.textinput.getInputType() == InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE) {
+//                    binding.imgEmotic.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
+//                    binding.textinput.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
+//
+//                } else {
+//                    binding.imgEmotic.setImageResource(R.drawable.ic_baseline_keyboard_24);
+//                    binding.textinput.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
+//
+//                }
+
+
+                if (popup.isShowing()) {
+                    popup.toggle();
                     binding.imgEmotic.setImageResource(R.drawable.ic_baseline_insert_emoticon_24);
-                    binding.textinput.setInputType(InputType.TYPE_TEXT_FLAG_IME_MULTI_LINE | InputType.TYPE_TEXT_FLAG_CAP_SENTENCES);
-
                 } else {
+                    popup.toggle();
                     binding.imgEmotic.setImageResource(R.drawable.ic_baseline_keyboard_24);
-                    binding.textinput.setInputType(InputType.TYPE_TEXT_VARIATION_SHORT_MESSAGE);
-
                 }
             }
         });

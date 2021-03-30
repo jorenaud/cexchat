@@ -26,7 +26,7 @@ import java.util.concurrent.Executors;
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
 
-public class EditMessage extends EditText {
+public class EditMessage extends androidx.appcompat.widget.AppCompatEditText {
 
     private static final InputFilter SPAN_FILTER = (source, start, end, dest, dstart, dend) -> source instanceof Spanned ? source.toString() : source;
     private final ExecutorService executor = Executors.newSingleThreadExecutor();
