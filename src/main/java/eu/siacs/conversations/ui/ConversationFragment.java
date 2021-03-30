@@ -1995,9 +1995,13 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 
     private void fireReadEvent() {
         if (activity != null && this.conversation != null) {
-            String uuid = getLastVisibleMessageUuid();
-            if (uuid != null) {
-                activity.onConversationRead(this.conversation, uuid);
+            try {
+                String uuid = getLastVisibleMessageUuid();
+                if (uuid != null) {
+                    activity.onConversationRead(this.conversation, uuid);
+                }
+            } catch (Exception e) {
+                e.printStackTrace();
             }
         }
 
@@ -2018,10 +2022,9 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                         //should not happen if we synchronize properly. however if that fails we just gonna try item -1
                         continue;
                     }
-//                    if (message.getType() != Message.TYPE_STATUS ) {
-//                        break;
-
-//                    }
+                    if (message.getType() != Message.TYPE_STATUS ) {
+                        break;
+                    }
 //                    if(message.getType() == 0){
 //                        break;
 //                    }
