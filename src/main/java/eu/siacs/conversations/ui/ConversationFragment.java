@@ -741,53 +741,44 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
     }
 
     private void sendMessage() {
-
+        if (mediaPreviewAdapter.hasAttachments()) {
+            commitAttachments();
+                    }
         final Editable text = this.binding.textinput.getText();
         final String body = text == null ? "" : text.toString();
         final Conversation conversation = this.conversation;
-
-
-
         if (body.length() == 0 || conversation == null) {
             return;
         }
-
         if (conversation.getNextEncryption() == Message.ENCRYPTION_AXOLOTL && trustKeysIfNeeded(REQUEST_TRUST_KEYS_TEXT)) {
             return;
         }
-
-        final Message message ;
-
+        final Message message;
         if (conversation.getCorrectingMessage() == null) {
             message = new Message(conversation, body, conversation.getNextEncryption());
             Message.configurePrivateMessage(message);
-        }
-        else {
+        } else {
             message = conversation.getCorrectingMessage();
             message.setBody(body);
             message.putEdited(message.getUuid(), message.getServerMsgId());
             message.setServerMsgId(null);
             message.setUuid(UUID.randomUUID().toString());
         }
-
-        if (mediaPreviewAdapter.hasAttachments()  && message!=null) {
-            commitAttachments(message);
-
-            return;
-        }
-
-        if (mediaPreviewAdapter.hasAttachments()) {
-            commitAttachments();
-            return;
-        }
-
         switch (conversation.getNextEncryption()) {
             case Message.ENCRYPTION_PGP:
                 sendPgpMessage(message);
                 break;
             default:
-                sendMessage(message);
+                if (mediaPreviewAdapter.hasAttachments() && message!= null) {
+                    commitAttachments();
+                    sendMessage(message);
+                }
+                else{
+                    sendMessage(message);
+                }
+
         }
+
     }
 
     protected boolean trustKeysIfNeeded(int requestCode) {
@@ -952,14 +943,14 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                     Log.d(Config.LOGTAG, "ConversationsActivity.commitAttachments() - attaching file to conversations. CHOOSE_FILE/RECORD_VOICE/RECORD_VIDEO");
                     attachFileToConversation(conversation, attachment.getUri(), attachment.getMime());
                 }
-                if ( ! i.hasNext()) {
+                if (!i.hasNext()) {
 
                     final Handler handler = new Handler(Looper.getMainLooper());
                     handler.postDelayed(new Runnable() {
                         @Override
                         public void run() {
-                            //Do something after 100ms
-                            sendMessage(message);
+                            if (message.getBody() != null){
+                                sendMessage(message);}
                         }
                     }, 1000);
 
@@ -1187,9 +1178,8 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
 //        binding.messagesView.addHeaderView(headerview);
 
         LayoutInflater myinflater = getActivity().getLayoutInflater();
-        ViewGroup myHeader = (ViewGroup)myinflater.inflate(R.layout.message_security_layout, binding.messagesView, false);
+        ViewGroup myHeader = (ViewGroup) myinflater.inflate(R.layout.message_security_layout, binding.messagesView, false);
         binding.messagesView.addHeaderView(myHeader, null, false);
-
 
 
         binding.messagesView.setTranscriptMode(ListView.TRANSCRIPT_MODE_NORMAL);
@@ -2022,7 +2012,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
                         //should not happen if we synchronize properly. however if that fails we just gonna try item -1
                         continue;
                     }
-                    if (message.getType() != Message.TYPE_STATUS ) {
+                    if (message.getType() != Message.TYPE_STATUS) {
                         break;
                     }
 //                    if(message.getType() == 0){
@@ -2711,9 +2701,7 @@ public class ConversationFragment extends XmppFragment implements EditMessage.Ke
         final Presence.Status status;
         final String text = this.binding.textinput.getText().toString();
 
-        if (hasAttachments) {
-            action = SendButtonAction.TEXT;
-        } else if (!text.equals("")) {
+        if (hasAttachments || !text.equals("")) {
             action = SendButtonAction.TEXT;
         } else {
             action = SendButtonAction.RECORD_VOICE;
