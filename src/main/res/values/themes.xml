@@ -63,9 +63,9 @@
         <item name="ic_make_video_call" type="reference">@drawable/ic_videocam_white_24dp</item>
 
         <item name="message_bubble_received_monochrome" type="reference">
-            @drawable/message_bubble_received_white
+            @drawable/lalo_white_final
         </item>
-        <item name="message_bubble_sent" type="reference">@drawable/message_bubble_sent</item>
+        <item name="message_bubble_sent" type="reference">@drawable/lalo_white_final</item>
         <item name="message_bubble_received_green" type="reference">
             @drawable/final_lalo
         </item>

@@ -41,8 +41,8 @@
         android:layout_height="wrap_content"
         android:layout_alignParentEnd="true"
         android:layout_alignParentTop="true"
-        android:layout_marginStart="-4dp"
-        android:background="?attr/message_bubble_sent"
+        android:layout_marginLeft="25dp"
+        android:background="@drawable/lalo_white_final"
         android:longClickable="true"
         android:minHeight="53dp">
 
@@ -51,6 +51,7 @@
             android:layout_height="fill_parent"
             android:gravity="center_vertical"
             android:orientation="vertical"
+            android:paddingEnd="3dp"
             android:layout_marginStart="2dp">
 
             <include
@@ -70,7 +71,7 @@
                     android:layout_height="wrap_content"
                     android:layout_gravity="center_vertical"
                     android:layout_marginEnd="4sp"
-                    android:layout_marginRight="4sp"
+                    android:paddingStart="2dp"
                     android:accessibilityTraversalAfter="@id/message_photo"
                     android:accessibilityTraversalBefore="@id/message_content"
                     android:gravity="center_vertical"

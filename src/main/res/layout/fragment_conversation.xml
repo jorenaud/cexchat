@@ -16,6 +16,9 @@
             android:layout_above="@id/layoutmain"
             android:layout_alignParentStart="true"
             android:layout_alignParentTop="true"
+            android:layout_marginStart="1dp"
+            android:layout_marginTop="-2dp"
+            android:layout_marginBottom="2dp"
             android:background="?attr/color_background_secondary"
             android:divider="@null"
             android:dividerHeight="0dp"
@@ -23,8 +26,6 @@
             android:listSelector="@android:color/transparent"
             tools:listheader="@layout/message_security_layout"
             tools:listitem="@layout/message_sent" />
-
-
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/scroll_to_bottom_button"
@@ -70,9 +71,6 @@
             tools:listitem="@layout/media_preview" />
 
 
-
-
-
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layoutmain"
             android:layout_width="match_parent"
@@ -88,11 +86,11 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginStart="3dp"
+                android:layout_marginBottom="8dp"
                 android:padding="4dp"
                 android:src="@drawable/ic_baseline_insert_emoticon_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintStart_toStartOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintStart_toStartOf="parent" />
 
 
             <eu.siacs.conversations.ui.widget.EditMessage
@@ -132,12 +130,12 @@
                 android:id="@+id/btnAttachedDoc"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:padding="4dp"
                 android:src="@drawable/ic_attachment"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toStartOf="@+id/btnCamera"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toStartOf="@+id/btnCamera" />
 
 
             <ImageButton
@@ -145,11 +143,11 @@
                 android:layout_width="30dp"
                 android:layout_height="30dp"
                 android:layout_marginEnd="3dp"
+                android:layout_marginBottom="8dp"
                 android:background="@android:color/transparent"
                 android:src="@drawable/ic_baseline_photo_camera_24"
                 app:layout_constraintBottom_toBottomOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent" />
+                app:layout_constraintEnd_toEndOf="parent" />
 
 
         </androidx.constraintlayout.widget.ConstraintLayout>

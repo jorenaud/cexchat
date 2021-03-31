@@ -847,7 +847,7 @@ public class MessageAdapter extends ArrayAdapter<Message> {
             if (isInValidSession) {
                 int bubble;
                 if (!mUseGreenBackground) {
-                    bubble = activity.getThemeResource(R.attr.message_bubble_received_monochrome, R.drawable.message_bubble_received_white);
+                    bubble = activity.getThemeResource(R.attr.message_bubble_received_monochrome, R.drawable.lalo_white_final);
                 } else {
                     bubble = activity.getThemeResource(R.attr.message_bubble_received_green, R.drawable.final_lalo);
                 }
