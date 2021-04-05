@@ -121,6 +121,8 @@ public class WelcomeActivity extends XmppActivity implements XmppConnectionServi
         ActivityWelcomeBinding binding = DataBindingUtil.setContentView(this, R.layout.activity_welcome);
         setSupportActionBar(binding.toolbar);
         configureActionBar(getSupportActionBar(), false);
+
+//        new Account
         binding.registerNewAccount.setOnClickListener(v -> {
             final Intent intent = new Intent(this, PickServerActivity.class);
             addInviteUri(intent);
@@ -149,7 +151,6 @@ public class WelcomeActivity extends XmppActivity implements XmppConnectionServi
         scan.setVisible(Compatibility.hasFeatureCamera(this));
         return super.onCreateOptionsMenu(menu);
     }
-
 
 
     @Override
