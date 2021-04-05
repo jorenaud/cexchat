@@ -377,6 +377,10 @@
         <item name="android:windowNoTitle">true</item>
     </style>
 
+    <style name="SplashTheme" parent="Theme.AppCompat.DayNight.NoActionBar">
+        <item name="android:windowBackground">@drawable/ic_splash_background</item>
+    </style>
+
     <style name="ConversationsTheme.Dark.Dialog" parent="@style/Theme.AppCompat.Dialog">
         <item name="colorPrimary">@color/green800</item>
         <item name="colorPrimaryDark">@color/green900</item>
