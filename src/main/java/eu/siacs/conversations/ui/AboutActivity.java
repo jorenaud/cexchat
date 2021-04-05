@@ -17,6 +17,8 @@ public class AboutActivity extends AppCompatActivity {
 
         setTheme(ThemeHelper.find(this));
 
+
+
         setContentView(R.layout.activity_about);
         setSupportActionBar(findViewById(R.id.toolbar));
         configureActionBar(getSupportActionBar());
