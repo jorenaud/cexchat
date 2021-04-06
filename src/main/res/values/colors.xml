@@ -31,8 +31,8 @@
 	<color name="green500">#ff4CAF50</color>
 	<color name="green600">#ff43A047</color>
 	<color name="green700">#ff388E3C</color>
-	<color name="green800">#ff2E7D32</color>
-	<color name="green900">#ff1B5E20</color>
+	<color name="green800">#f9b207</color>
+	<color name="green900">#f9b207</color>
 
 	<color name="green700_desaturated">#ff4d8e50</color> <!-- desaturated by 15 -->
 	<color name="green900_desaturated">#ff295e2d</color> <!-- desaturated by 15 -->

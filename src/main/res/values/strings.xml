@@ -960,7 +960,8 @@
     <string name="server_does_not_support_easy_onboarding_invites">Server does not support generating invites</string>
     <string name="no_active_accounts_support_this">No active accounts support this feature</string>
     <string name="app_name_">CexChat</string>
-    <string name="terms_condition">Read our Privacy Policy. Top "Agree and Continue" to accept the Terms of Service</string>
+    <string name="terms_condition">Read our <a href ="https://www.w3schools.com/">Privacy Policy</a>. Top <b>"Agree and Continue"</b> to accept the Terms of Service</string>
     <string name="whats_my_num">CexChat will send an SMS message to verify your Phone number. <b>What\'s my number ?</b></string>
     <string name="ic">+</string>
+    <string name="privacy_policy">https://stackoverflow.com/questions/15475907/make-parts-of-textview-clickable-not-url</string>
 </resources>
