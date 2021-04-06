@@ -16,8 +16,16 @@ public class ConversationActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        startActivity(new Intent(ConversationActivity.this, ConversationsActivity.class));
-        finish();
+        final Handler handler = new Handler(Looper.getMainLooper());
+        handler.postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                //Do something after 100ms
+                startActivity(new Intent(ConversationActivity.this, ConversationsActivity.class));
+                finish();
+
+            }
+        }, 3000);
 
     }
 }

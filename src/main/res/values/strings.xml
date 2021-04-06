@@ -961,4 +961,6 @@
     <string name="no_active_accounts_support_this">No active accounts support this feature</string>
     <string name="app_name_">CexChat</string>
     <string name="terms_condition">Read our Privacy Policy. Top "Agree and Continue" to accept the Terms of Service</string>
+    <string name="whats_my_num">CexChat will send an SMS message to verify your Phone number. <b>What\'s my number ?</b></string>
+    <string name="ic">+</string>
 </resources>

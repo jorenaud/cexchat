@@ -1,5 +1,6 @@
 package eu.siacs.conversations.ui;
 
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
@@ -8,9 +9,15 @@ import android.text.TextWatcher;
 import android.view.View;
 import android.widget.Toast;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.databinding.DataBindingUtil;
 
+import com.mukesh.countrypicker.Country;
+import com.mukesh.countrypicker.CountryPicker;
+import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
+
 import java.security.SecureRandom;
+import java.util.regex.Pattern;
 
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.R;
@@ -20,7 +27,7 @@ import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.utils.InstallReferrerUtils;
 import eu.siacs.conversations.xmpp.Jid;
 
-public class MagicCreateActivity extends XmppActivity implements TextWatcher {
+public class MagicCreateActivity extends XmppActivity implements TextWatcher, OnCountryPickerListener {
 
     public static final String EXTRA_DOMAIN = "domain";
     public static final String EXTRA_PRE_AUTH = "pre_auth";
@@ -61,6 +68,15 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         }
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.magic_create);
+
+        intializeCountryPicker();
+
+        binding.tvCountryPicker.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                showPicker();
+            }
+        });
         setSupportActionBar(this.binding.toolbar);
         configureActionBar(getSupportActionBar(), this.domain == null);
         if (username != null && domain != null) {
@@ -122,6 +138,22 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         binding.username.addTextChangedListener(this);
     }
 
+    CountryPicker countryPicker;
+    public void intializeCountryPicker(){
+        CountryPicker.Builder builder =
+                new CountryPicker.Builder().with(MagicCreateActivity.this)
+                        .listener(MagicCreateActivity.this);
+
+        countryPicker = builder.build();
+    }
+    private void showPicker() {
+
+//            countryPicker.showBottomSheet(MainActivity.this);
+            countryPicker.showDialog(MagicCreateActivity.this);
+
+    }
+
+
     @Override
     public void onDestroy() {
         InstallReferrerUtils.markInstallReferrerExecuted(this);
@@ -160,5 +192,17 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
                 binding.fullJid.setVisibility(View.INVISIBLE);
             }
         }
+    }
+
+    @Override
+    public void onSelectCountry(Country country) {
+
+        String dialcode = country.getDialCode();
+        String[] arrOfStr = dialcode.split(Pattern.quote("+"));
+
+        binding.tvCountryPicker.setText(""+country.getName());
+        binding.tvCountryCode.setText("+    "+arrOfStr[1]);
+        binding.etPhoneNumber.requestFocus();
+        Toast.makeText(getApplicationContext(),arrOfStr[1],Toast.LENGTH_SHORT).show();
     }
 }
