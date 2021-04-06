@@ -49,10 +49,11 @@ TextView tv_signup,tv_privacy,tv_signin;
 
 
         SpannableString spannableString = new SpannableString(getString(R.string.terms_condition));
+
         ClickableSpan clickableSpan1 = new ClickableSpan() {
             @Override
             public void onClick(View widget) {
-                Uri uri = Uri.parse(getString(R.string.privacy_policy)); // missing 'http://' will cause crashed
+                Uri uri = Uri.parse(getString(R.string.privacy_policy));
                 Intent intent = new Intent(Intent.ACTION_VIEW, uri);
                 startActivity(intent);
             }
@@ -60,6 +61,7 @@ TextView tv_signup,tv_privacy,tv_signin;
 
         spannableString.setSpan(clickableSpan1, 9,24, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
         tv_privacy.setText(spannableString);
+
         tv_privacy.setMovementMethod(LinkMovementMethod.getInstance());
 
 
