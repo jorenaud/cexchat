@@ -37,6 +37,7 @@ configurations {
 
 dependencies {
     implementation 'androidx.viewpager:viewpager:1.0.0'
+    implementation 'androidx.constraintlayout:constraintlayout:2.0.4'
 
     playstoreImplementation('com.google.firebase:firebase-messaging:21.0.1') {
         exclude group: 'com.google.firebase', module: 'firebase-core'

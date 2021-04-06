@@ -413,4 +413,14 @@
         <item name="TextSizeTitle">56sp</item>
     </style>
 
+
+
+    <style name="PrimaryButton" parent="@android:style/Widget.Button">
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/ic_rectangle_button</item>
+        <item name="android:gravity">center</item>
+        <item name="android:textColor">@color/white</item>
+        <item name="android:fontFamily">@raw/bold</item>
+    </style>
+
 </resources>

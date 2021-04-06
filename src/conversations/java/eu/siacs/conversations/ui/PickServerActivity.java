@@ -39,7 +39,7 @@ public class PickServerActivity extends XmppActivity {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
-            startActivity(new Intent(this, WelcomeActivity.class));
+            startActivity(new Intent(this, WelcomActivityNew.class));
             finish();
             return true;
         }
@@ -48,7 +48,7 @@ public class PickServerActivity extends XmppActivity {
 
     @Override
     public void onBackPressed() {
-        startActivity(new Intent(this, WelcomeActivity.class));
+        startActivity(new Intent(this, WelcomActivityNew.class));
         super.onBackPressed();
     }
 

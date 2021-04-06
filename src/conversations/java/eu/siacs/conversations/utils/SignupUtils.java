@@ -12,6 +12,7 @@ import eu.siacs.conversations.ui.MagicCreateActivity;
 import eu.siacs.conversations.ui.ManageAccountActivity;
 import eu.siacs.conversations.ui.PickServerActivity;
 import eu.siacs.conversations.ui.StartConversationActivity;
+import eu.siacs.conversations.ui.WelcomActivityNew;
 import eu.siacs.conversations.ui.WelcomeActivity;
 import eu.siacs.conversations.xmpp.Jid;
 
@@ -42,7 +43,7 @@ public class SignupUtils {
         if (toServerChooser) {
             intent = new Intent(activity, PickServerActivity.class);
         } else {
-            intent = new Intent(activity, WelcomeActivity.class);
+            intent = new Intent(activity, WelcomActivityNew.class);
         }
         return intent;
     }
