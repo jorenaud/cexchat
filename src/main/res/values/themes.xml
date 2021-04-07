@@ -432,6 +432,19 @@
         <item name="android:fontFamily">@raw/bold</item>
     </style>
 
+    <style name="SecondButton" parent="@android:style/Widget.Button">
+        <item name="android:textSize">17sp</item>
+        <item name="android:background">@drawable/ic_rectangle_button_white</item>
+        <item name="android:gravity">center</item>
+        <item name="android:layout_marginStart">60dp</item>
+        <item name="android:layout_marginTop">3dp</item>
+        <item name="android:layout_marginBottom">3dp</item>
+        <item name="android:layout_marginEnd">60dp</item>
+        <item name="android:paddingBottom">4dp</item>
+        <item name="android:textColor">@color/green800</item>
+        <item name="android:fontFamily">@raw/bold</item>
+    </style>
+
 
     <style name="sectionHeader" parent="android:Widget.Holo.Light.TextView">
         <item name="android:background">@drawable/ic_input</item>

@@ -41,7 +41,7 @@ public class WelcomeActivity extends XmppActivity implements XmppConnectionServi
     private XmppUri inviteUri;
 
     public static void launch(AppCompatActivity activity) {
-        Intent intent = new Intent(activity, WelcomeActivity.class);
+        Intent intent = new Intent(activity, MagicCreateActivity.class);
         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
         activity.startActivity(intent);
         activity.overridePendingTransition(0, 0);

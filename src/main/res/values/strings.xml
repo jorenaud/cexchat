@@ -964,4 +964,7 @@
     <string name="whats_my_num">CexChat will send an SMS message to verify your Phone number. <b>What\'s my number ?</b></string>
     <string name="ic">+</string>
     <string name="privacy_policy">https://stackoverflow.com/questions/15475907/make-parts-of-textview-clickable-not-url</string>
+    <string name="resend_otp">Didn\'t get OTP? <b>Resend OTP</b></string>
+    <string name="otp_resend_success">OTP sent to your registered mobile number successfully</string>
+
 </resources>

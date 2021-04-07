@@ -72,39 +72,7 @@ public class ConversationActivity extends XmppActivity {
 
 
 
-    public Intent getRedirectionIntent(final ConversationActivity activity) {
-//        Log.e("CLASSSSSSSSS", "getRedirectionIntent: "+activity.getClass().getSimpleName() );
-//        ConversationsActivity
-        final XmppConnectionService service = (ConversationActivity.this).xmppConnectionService;
-        Account pendingAccount = AccountUtils.getPendingAccount(service);
-        Intent intent;
-        if (pendingAccount != null) {
-            intent = new Intent(activity, EditAccountActivity.class);
-            intent.putExtra("jid", pendingAccount.getJid().asBareJid().toString());
-            if (!pendingAccount.isOptionSet(Account.OPTION_MAGIC_CREATE)) {
-                intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, pendingAccount.isOptionSet(Account.OPTION_REGISTER));
-            }
-        } else {
-            Log.e("CUSTOM----", "getSignUpIntent: ++++++" + service.getAccounts().size() );
-            if (service.getAccounts().size() == 0) {
-                Log.e("CUSTOM----", "getSignUpIntent: ++++++" + Config.X509_VERIFICATION );
-                if (Config.X509_VERIFICATION) {
-                    intent = new Intent(activity, ManageAccountActivity.class);
-                } else if (Config.MAGIC_CREATE_DOMAIN != null) {
-                    Log.e("CUSTOM----", "getSignUpIntent: ++++++" );
-                    intent = getSignUpIntent(ConversationActivity.this);
-                } else {
-                    intent = new Intent(activity, EditAccountActivity.class);
-                }
-            } else {
-                intent = new Intent(activity, StartConversationActivity.class);
-            }
-        }
-        intent.putExtra("init", true);
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-        return intent;
-    }
-    
+
 
     @Override
     public void onPointerCaptureChanged(boolean hasCapture) {

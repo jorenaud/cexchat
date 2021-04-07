@@ -34,7 +34,7 @@ TextView tv_signup,tv_privacy,tv_signin;
         tv_signup.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                startActivity(new Intent(WelcomActivityNew.this, WelcomeActivity.class));
+                startActivity(new Intent(WelcomActivityNew.this, MagicCreateActivity.class));
 
             }
         });

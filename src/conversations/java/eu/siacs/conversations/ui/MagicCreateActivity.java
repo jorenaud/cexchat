@@ -3,13 +3,19 @@ package eu.siacs.conversations.ui;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.net.Uri;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.SpannableString;
+import android.text.Spanned;
 import android.text.TextWatcher;
+import android.text.method.LinkMovementMethod;
+import android.text.style.ClickableSpan;
 import android.view.View;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AlertDialog;
+import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.mukesh.countrypicker.Country;
@@ -32,6 +38,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     public static final String EXTRA_DOMAIN = "domain";
     public static final String EXTRA_PRE_AUTH = "pre_auth";
     public static final String EXTRA_USERNAME = "username";
+
 
     private MagicCreateBinding binding;
     private String domain;
@@ -66,10 +73,42 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         if (getResources().getBoolean(R.bool.portrait_only)) {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
         }
+
+
         super.onCreate(savedInstanceState);
         this.binding = DataBindingUtil.setContentView(this, R.layout.magic_create);
 
+        binding.tvVerify.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Toast.makeText(getApplicationContext(), "VERIFIED SUCCESSUFULLY ", Toast.LENGTH_SHORT).show();
+            }
+        });
         intializeCountryPicker();
+
+        binding.tvNext.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                MoveToVerify();
+            }
+        });
+
+
+        SpannableString spannableString = new SpannableString(getString(R.string.resend_otp));
+
+        ClickableSpan clickableSpan1 = new ClickableSpan() {
+            @Override
+            public void onClick(View widget) {
+//             Resend OTP
+                binding.tvResendOTP.setText(getString(R.string.otp_resend_success));
+            }
+        };
+
+        spannableString.setSpan(clickableSpan1, 16, 26, Spanned.SPAN_EXCLUSIVE_EXCLUSIVE);
+        binding.tvResendOTP.setText(spannableString);
+
+        binding.tvResendOTP.setMovementMethod(LinkMovementMethod.getInstance());
+
 
         binding.tvCountryPicker.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -139,17 +178,19 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     }
 
     CountryPicker countryPicker;
-    public void intializeCountryPicker(){
+
+    public void intializeCountryPicker() {
         CountryPicker.Builder builder =
                 new CountryPicker.Builder().with(MagicCreateActivity.this)
                         .listener(MagicCreateActivity.this);
 
         countryPicker = builder.build();
     }
+
     private void showPicker() {
 
 //            countryPicker.showBottomSheet(MainActivity.this);
-            countryPicker.showDialog(MagicCreateActivity.this);
+        countryPicker.showDialog(MagicCreateActivity.this);
 
     }
 
@@ -200,9 +241,25 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         String dialcode = country.getDialCode();
         String[] arrOfStr = dialcode.split(Pattern.quote("+"));
 
-        binding.tvCountryPicker.setText(""+country.getName());
-        binding.tvCountryCode.setText("+    "+arrOfStr[1]);
+        binding.tvCountryPicker.setText("" + country.getName());
+        binding.tvCountryCode.setText("+    " + arrOfStr[1]);
         binding.etPhoneNumber.requestFocus();
-        Toast.makeText(getApplicationContext(),arrOfStr[1],Toast.LENGTH_SHORT).show();
+    }
+
+    public void MoveToVerify() {
+        binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
+        binding.layoutVerify.setVisibility(View.VISIBLE);
+    }
+
+    @Override
+    public void onBackPressed() {
+
+        if (binding.layoutVerify.getVisibility() == View.VISIBLE) {
+            binding.layoutMobileNumber.setVisibility(View.VISIBLE);
+            binding.layoutVerify.setVisibility(View.INVISIBLE);
+        } else {
+            super.onBackPressed();
+        }
+
     }
 }
