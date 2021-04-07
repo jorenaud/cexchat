@@ -3,6 +3,7 @@ package eu.siacs.conversations.ui;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -39,6 +40,7 @@ public class PickServerActivity extends XmppActivity {
     @Override
     public boolean onOptionsItemSelected(final MenuItem item) {
         if (item.getItemId() == android.R.id.home) {
+            Log.e("CUSTOM------", "onOptionsItemSelected: 444444" );
             startActivity(new Intent(this, WelcomActivityNew.class));
             finish();
             return true;
@@ -48,6 +50,7 @@ public class PickServerActivity extends XmppActivity {
 
     @Override
     public void onBackPressed() {
+        Log.e("CUSTOM------", "onOptionsItemSelected: 33333" );
         startActivity(new Intent(this, WelcomActivityNew.class));
         super.onBackPressed();
     }

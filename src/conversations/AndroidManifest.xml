@@ -16,6 +16,7 @@
         <activity
             android:name=".ui.PickServerActivity"
             android:label="@string/create_new_account"
+            android:theme="@style/SplashTheme"
             android:launchMode="singleTask" />
         <activity
             android:name=".ui.MagicCreateActivity"

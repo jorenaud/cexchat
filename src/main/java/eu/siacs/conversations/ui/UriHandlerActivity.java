@@ -7,6 +7,7 @@ import android.content.pm.PackageManager;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -130,6 +131,7 @@ public class UriHandlerActivity extends AppCompatActivity {
 
         if (accounts.size() == 0) {
             if (xmppUri.isValidJid()) {
+                Log.e("CUSTOM----", "getSignUpIntent: ---------" );
                 intent = SignupUtils.getSignUpIntent(this);
                 intent.putExtra(StartConversationActivity.EXTRA_INVITE_URI, xmppUri.toString());
                 startActivity(intent);

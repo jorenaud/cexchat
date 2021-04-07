@@ -263,6 +263,7 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
     private void notifyFragmentOfBackendConnected(@IdRes int id) {
         final Fragment fragment = getFragmentManager().findFragmentById(id);
         if (fragment instanceof OnBackendConnected) {
+
             ((OnBackendConnected) fragment).onBackendConnected();
         }
     }
@@ -712,6 +713,7 @@ public class ConversationsActivity extends XmppActivity implements OnConversatio
 
     @Override
     public void onConversationUpdate() {
+        Log.e("CUSTOM-------", "notifyFragmentOfBackendConnected: ");
         if (performRedirectIfNecessary(false)) {
             return;
         }

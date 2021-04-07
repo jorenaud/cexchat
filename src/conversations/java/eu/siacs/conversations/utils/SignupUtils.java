@@ -1,7 +1,9 @@
 package eu.siacs.conversations.utils;
 
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
+import android.util.Log;
 
 import eu.siacs.conversations.Config;
 import eu.siacs.conversations.entities.Account;
@@ -35,6 +37,7 @@ public class SignupUtils {
     }
 
     public static Intent getSignUpIntent(final Activity activity) {
+
         return getSignUpIntent(activity, false);
     }
 
@@ -49,7 +52,9 @@ public class SignupUtils {
     }
 
     public static Intent getRedirectionIntent(final ConversationsActivity activity) {
-        final XmppConnectionService service = activity.xmppConnectionService;
+//        Log.e("CLASSSSSSSSS", "getRedirectionIntent: "+activity.getClass().getSimpleName() );
+//        ConversationsActivity
+        final XmppConnectionService service = (activity).xmppConnectionService;
         Account pendingAccount = AccountUtils.getPendingAccount(service);
         Intent intent;
         if (pendingAccount != null) {
@@ -59,10 +64,13 @@ public class SignupUtils {
                 intent.putExtra(EditAccountActivity.EXTRA_FORCE_REGISTER, pendingAccount.isOptionSet(Account.OPTION_REGISTER));
             }
         } else {
+            Log.e("CUSTOM----", "getSignUpIntent: ++++++" + service.getAccounts().size() );
             if (service.getAccounts().size() == 0) {
+                Log.e("CUSTOM----", "getSignUpIntent: ++++++" + Config.X509_VERIFICATION );
                 if (Config.X509_VERIFICATION) {
                     intent = new Intent(activity, ManageAccountActivity.class);
                 } else if (Config.MAGIC_CREATE_DOMAIN != null) {
+                    Log.e("CUSTOM----", "getSignUpIntent: ++++++" );
                     intent = getSignUpIntent(activity);
                 } else {
                     intent = new Intent(activity, EditAccountActivity.class);
