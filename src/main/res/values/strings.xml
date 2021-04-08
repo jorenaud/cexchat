@@ -533,13 +533,13 @@
     <string name="share_uri_with">Share URI with…</string>
     <string name="welcome_header" translatable="false">Join the Conversation</string>
     <string name="welcome_header_quicksy" translatable="false">Have some Quick Conversations</string>
-    <string name="welcome_text_quicksy"><![CDATA[Quicksy is a spin off of the popular XMPP client Conversations with automatic contact discovery.<br><br>You sign up with your phone number and Quicksy will automatically—based on the phone numbers in your address book—suggest possible contacts to you.<br><br>By signing up you agree to our <a href="https://quicksy.im/#privacy">privacy policy</a>.]]></string>
+    <string name="welcome_text_quicksy"><![CDATA[Quicksy is a spin off of the popular XMPP client CexChat with automatic contact discovery.<br><br>You sign up with your phone number and Quicksy will automatically—based on the phone numbers in your address book—suggest possible contacts to you.<br><br>By signing up you agree to our <a href="https://quicksy.im/#privacy">privacy policy</a>.]]></string>
     <string name="agree_and_continue">Agree and continue</string>
-    <string name="magic_create_text">A guide is set up for account creation on conversations.im.¹\nWhen picking conversations.im as a provider you will be able to communicate with users of other providers by giving them your full XMPP address.</string>
+    <string name="magic_create_text">A guide is set up for account creation on CexChat.When picking conversations.im as a provider you will be able to communicate with users of other providers by giving them your full XMPP address.</string>
     <string name="your_full_jid_will_be">Your full XMPP address will be: %s</string>
     <string name="create_account">Create Account</string>
     <string name="use_own_provider">Use my own provider</string>
-    <string name="pick_your_username">Pick your username</string>
+    <string name="pick_your_username">Your Username</string>
     <string name="pref_manually_change_presence">Manage availability manually</string>
     <string name="pref_manually_change_presence_summary">Set your availability when editing your status message.</string>
     <string name="status_message">Status message</string>
@@ -560,7 +560,7 @@
     <string name="gp_medium">Medium</string>
     <string name="gp_long">Long</string>
     <string name="pref_broadcast_last_activity">Broadcast use</string>
-    <string name="pref_broadcast_last_activity_summary">Lets your contacts know when you use Conversations</string>
+    <string name="pref_broadcast_last_activity_summary">Lets your contacts know when you use CexChat</string>
     <string name="pref_privacy">Privacy</string>
     <string name="pref_theme_options">Theme</string>
     <string name="pref_theme_options_summary">Select the color palette</string>

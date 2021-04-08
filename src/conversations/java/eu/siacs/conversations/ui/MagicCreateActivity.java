@@ -94,7 +94,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
 
         super.onCreate(savedInstanceState);
 
-        mAuth=FirebaseAuth.getInstance();
+        mAuth = FirebaseAuth.getInstance();
         this.binding = DataBindingUtil.setContentView(this, R.layout.magic_create);
 
         SmsReceiver.bindListener(new SmsListener() {
@@ -107,7 +107,13 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         binding.tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                verifyCode(binding.etOtp.getText().toString());
+                if (binding.etOtp.getText().length() == 6) {
+                    binding.etOtp.setError(null);
+                    verifyCode(binding.etOtp.getText().toString(), phoneNum);
+                } else {
+                    binding.etOtp.setError("Enter Valid OTP");
+                }
+
             }
         });
 
@@ -116,7 +122,20 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         binding.tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MoveToVerify();
+                Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getText().length());
+                if (binding.tvCountryPicker.getText().length() != 0) {
+
+                    if (binding.etPhoneNumber.getText().length() != 10) {
+                        binding.etPhoneNumber.setError("Please Enter Valid Phone Number");
+                    } else {
+                        binding.etPhoneNumber.setError(null);
+                        MoveToVerify();
+                    }
+                } else {
+                    binding.tvCountryPicker.setError("Please Select Your Country");
+                }
+
+
             }
         });
 
@@ -127,8 +146,8 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
             @Override
             public void onClick(View widget) {
 //             Resend OTP
-                Log.e("KING----", "onClick: "+phoneNum +"-----"+resendToken);
-                resendVerificationCode(phoneNum,resendToken);
+                Log.e("KING----", "onClick: " + phoneNum + "-----" + resendToken);
+                resendVerificationCode(phoneNum, resendToken);
                 binding.tvResendOTP.setText(getString(R.string.otp_resend_success));
             }
         };
@@ -142,11 +161,16 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         binding.tvCountryPicker.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                binding.tvCountryPicker.setError(null);
                 showPicker();
             }
         });
-        setSupportActionBar(this.binding.toolbar);
-        configureActionBar(getSupportActionBar(), this.domain == null);
+
+//        setSupportActionBar(this.binding.toolbar);
+
+//        configureActionBar(getSupportActionBar(), this.domain == null);
+
+
         if (username != null && domain != null) {
             binding.title.setText(R.string.your_server_invitation);
             binding.instructions.setText(getString(R.string.magic_create_text_fixed, domain));
@@ -158,6 +182,8 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
             binding.instructions.setText(getString(R.string.magic_create_text_on_x, domain));
             binding.finePrint.setVisibility(View.INVISIBLE);
         }
+
+
         binding.createAccount.setOnClickListener(v -> {
             try {
                 final String username = binding.username.getText().toString();
@@ -197,15 +223,17 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                     Toast.makeText(MagicCreateActivity.this, R.string.secure_password_generated, Toast.LENGTH_SHORT).show();
                     StartConversationActivity.addInviteUri(intent, getIntent());
                     startActivity(intent);
+                    finish();
                 }
             } catch (IllegalArgumentException e) {
                 binding.username.setError(getString(R.string.invalid_username));
                 binding.username.requestFocus();
             }
         });
+
+
         binding.username.addTextChangedListener(this);
     }
-
 
 
     CountryPicker countryPicker;
@@ -314,11 +342,11 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
-            resendToken= forceResendingToken;
-
+            resendToken = forceResendingToken;
 
 
         }
+
         @Override
         public void onVerificationCompleted(PhoneAuthCredential phoneAuthCredential) {
             final String code = phoneAuthCredential.getSmsCode();
@@ -326,7 +354,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                 binding.etOtp.setText(code);
 
 
-                verifyCode(code);
+                verifyCode(code, phoneNum);
             }
         }
 
@@ -337,15 +365,19 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     };
 
 
-    private void signInWithCredential(PhoneAuthCredential credential) {
+    private void signInWithCredential(PhoneAuthCredential credential, String phoneNum) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
-                            Intent i = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
-                            startActivity(i);
-                            finish();
+
+                            binding.username.setText("" + phoneNum);
+
+                            binding.layoutVerify.setVisibility(View.INVISIBLE);
+                            binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
+                            binding.layoutPickUsername.setVisibility(View.VISIBLE);
+
                         } else {
                             Toast.makeText(MagicCreateActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();
                         }
@@ -354,10 +386,9 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     }
 
 
-    private void verifyCode(String code) {
+    private void verifyCode(String code, String phoneNum) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
-
-        signInWithCredential(credential);
+        signInWithCredential(credential, phoneNum);
     }
 
 
@@ -373,13 +404,15 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     }
 
 
-
     @Override
     public void onBackPressed() {
 
         if (binding.layoutVerify.getVisibility() == View.VISIBLE) {
             binding.layoutMobileNumber.setVisibility(View.VISIBLE);
             binding.layoutVerify.setVisibility(View.INVISIBLE);
+        } else if (binding.layoutPickUsername.getVisibility() == View.VISIBLE) {
+            binding.layoutPickUsername.setVisibility(View.INVISIBLE);
+            binding.layoutVerify.setVisibility(View.VISIBLE);
         } else {
             super.onBackPressed();
         }

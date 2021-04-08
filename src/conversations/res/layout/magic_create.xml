@@ -8,126 +8,128 @@
         android:layout_height="match_parent"
         android:background="@drawable/img_signup_">
 
-        <LinearLayout
+        <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="vertical"
+            android:id="@+id/layout_pick_username"
             android:visibility="gone"
- >
+            android:orientation="vertical" >
 
-            <include
-                android:id="@+id/toolbar"
-                layout="@layout/toolbar" />
+<!--            <include-->
+<!--                android:id="@+id/toolbar"-->
+<!--                layout="@layout/toolbar"-->
+<!--                app:layout_constraintEnd_toEndOf="parent"-->
+<!--                app:layout_constraintStart_toStartOf="parent"-->
+<!--                app:layout_constraintTop_toTopOf="parent" />-->
 
-            <ScrollView
+
+            <TextView
+                android:id="@+id/title"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@raw/semibold"
+                android:gravity="center"
+                android:text="@string/pick_your_username"
+                android:textColor="@color/white"
+                android:textSize="27sp"
+                android:layout_marginTop="20dp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent" />
+
+            <TextView
+                android:id="@+id/instructions"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:fillViewport="true">
+                android:layout_height="wrap_content"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="20dp"
+                android:text="@string/magic_create_text"
+                android:fontFamily="@raw/regular"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/title" />
 
-                <RelativeLayout
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
-                    android:background="?attr/color_background_primary">
+            <TextView
+                android:id="@+id/full_jid"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
+                android:text="@string/your_full_jid_will_be"
+                android:visibility="invisible"
+                android:fontFamily="@raw/regular"
+                android:gravity="center"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/username" />
 
-                    <LinearLayout
-                        android:id="@+id/linearLayout"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true"
-                        android:layout_alignParentBottom="true"
-                        android:minHeight="256dp"
-                        android:orientation="vertical"
-                        android:paddingLeft="16dp"
-                        android:paddingRight="16dp"
-                        android:paddingBottom="10dp">
+            <EditText
+                android:id="@+id/username"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_horizontal"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="25dp"
+                android:layout_marginEnd="20dp"
+                android:enabled="false"
+                android:background="@drawable/bg_edittext"
+                android:fontFamily="@raw/bold"
+                android:gravity="center_vertical"
+                android:paddingLeft="20dp"
+                android:paddingEnd="20dp"
+                android:textColor="@color/white"
+                android:textColorHint="@color/white"
+                android:textSize="14sp"
+                android:hint="@string/username_hint"
+                android:inputType="textNoSuggestions"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/instructions" />
 
-                        <Space
-                            android:layout_width="match_parent"
-                            android:layout_height="0dp"
-                            android:layout_weight="1" />
 
-                        <TextView
-                            android:id="@+id/title"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:text="@string/pick_your_username"
-                            android:textAppearance="@style/TextAppearance.Conversations.Title" />
+            <Button
+                android:id="@+id/create_account"
+                style="@style/SecondButton"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginBottom="20dp"
+                android:text="@string/next"
+                app:layout_constraintBottom_toBottomOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
-                            android:id="@+id/instructions"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/magic_create_text"
-                            android:textAppearance="@style/TextAppearance.Conversations.Body1" />
 
-                        <EditText
-                            android:id="@+id/username"
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="center_horizontal"
-                            android:hint="@string/username_hint"
-                            android:inputType="textNoSuggestions"
-                            android:textColor="?attr/edit_text_color" />
+            <TextView
+                android:id="@+id/fine_print"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentBottom="true"
+                android:layout_centerHorizontal="true"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                android:layout_marginBottom="15dp"
+                android:fontFamily="@raw/regular"
+                android:gravity="center"
+                android:maxLines="2"
+                android:text="@string/free_for_six_month"
+                android:textColor="@color/white"
+                android:textSize="15sp"
+                app:layout_constraintBottom_toTopOf="@+id/create_account"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent" />
 
-                        <TextView
-                            android:id="@+id/full_jid"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="8dp"
-                            android:text="@string/your_full_jid_will_be"
-                            android:textAppearance="@style/TextAppearance.Conversations.Caption"
-                            android:visibility="invisible" />
+        </androidx.constraintlayout.widget.ConstraintLayout>
 
-                        <Button
-                            android:id="@+id/create_account"
-                            style="@style/Widget.Conversations.Button.Borderless"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_gravity="right"
-                            android:text="@string/next"
-                            android:textColor="?colorAccent" />
-                    </LinearLayout>
-
-                    <RelativeLayout
-                        android:layout_width="match_parent"
-                        android:layout_height="match_parent"
-                        android:layout_above="@+id/linearLayout"
-                        android:layout_alignParentStart="true"
-                        android:layout_alignParentLeft="true">
-
-                        <ImageView
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
-                            android:layout_centerHorizontal="true"
-                            android:layout_centerVertical="true"
-                            android:padding="8dp"
-                            android:src="@drawable/main_logo" />
-                    </RelativeLayout>
-
-                    <TextView
-                        android:id="@+id/fine_print"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:maxLines="1"
-                        android:paddingLeft="8dp"
-                        android:paddingRight="8dp"
-                        android:text="@string/free_for_six_month"
-                        android:textColor="?android:textColorSecondary"
-                        android:textSize="@dimen/fineprint_size" />
-                </RelativeLayout>
-            </ScrollView>
-        </LinearLayout>
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:id="@+id/layout_mobile_number"
             android:layout_width="match_parent"
             android:layout_height="match_parent">
-
-
 
             <TextView
                 android:id="@+id/textView"
@@ -151,11 +153,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
-                android:fontFamily="@raw/regular"
-                android:gravity="center"
                 android:text="@string/whats_my_num"
                 android:textColor="@color/white"
                 android:textSize="15sp"
+                android:fontFamily="@raw/regular"
+                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -167,13 +169,14 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:background="@drawable/bg_edittext"
+                android:hint="Select Country"
+                android:textColorHint="@color/white"
                 android:drawableEnd="@drawable/ic_down_arrow"
+                android:background="@drawable/bg_edittext"
                 android:fontFamily="@raw/bold"
                 android:gravity="center_vertical"
                 android:paddingLeft="20dp"
                 android:paddingEnd="20dp"
-                android:text="Select Country"
                 android:textColor="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -236,6 +239,8 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
+
+
 
             <TextView
                 android:id="@+id/tv_next"
@@ -314,7 +319,7 @@
                 android:layout_marginBottom="20dp"
                 android:text="VERIFY"
                 app:layout_constraintBottom_toBottomOf="parent"
-                tools:layout_editor_absoluteX="60dp" />
+               />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
