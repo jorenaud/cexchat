@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "478680559101",
+    "project_id": "cexchat-4816e",
+    "storage_bucket": "cexchat-4816e.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:478680559101:android:099a31f8133e9c6058bd94",
+        "android_client_info": {
+          "package_name": "eu.siacs.conversations"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "478680559101-1e3efdqcm2i527cdoes1f0r65dkv9qmp.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDvmEbvqxnUiKEbI3Cu532iTHPSYzsX9Po"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "478680559101-1e3efdqcm2i527cdoes1f0r65dkv9qmp.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
