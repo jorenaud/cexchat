@@ -35,6 +35,7 @@ TextView tv_signup,tv_privacy,tv_signin;
             @Override
             public void onClick(View v) {
                 startActivity(new Intent(WelcomActivityNew.this, MagicCreateActivity.class));
+//                startActivity(new Intent(WelcomActivityNew.this, EditAccountActivity.class));
 
             }
         });

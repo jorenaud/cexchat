@@ -184,6 +184,8 @@
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
+
+
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
@@ -216,10 +218,11 @@
                     android:layout_weight="3.5"
                     android:fontFamily="@raw/extrabold"
                     android:gravity="center"
-                    android:hint="XXX XXX XXXX"
+                    android:hint="XXX XXX XXXX "
+
+                    android:letterSpacing="0.25"
                     android:inputType="phone"
-                    android:maxLength="10"
-                    android:textColorHint="@color/white" />
+                    android:textColorHint="@color/emoji_gray20" />
 
             </LinearLayout>
 

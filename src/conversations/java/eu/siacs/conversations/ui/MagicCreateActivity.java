@@ -4,9 +4,12 @@ import android.app.Activity;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.hardware.ConsumerIrManager;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.text.Editable;
+import android.text.InputFilter;
 import android.text.SpannableString;
 import android.text.Spanned;
 import android.text.TextWatcher;
@@ -17,6 +20,7 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.RequiresApi;
 import androidx.appcompat.app.AlertDialog;
 import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
@@ -31,11 +35,15 @@ import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
+import com.google.i18n.phonenumbers.PhoneNumberUtil;
 import com.mukesh.countrypicker.Country;
 import com.mukesh.countrypicker.CountryPicker;
 import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
 
 import java.security.SecureRandom;
+import java.sql.Array;
+import java.util.List;
+import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -56,11 +64,11 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     public static final String EXTRA_USERNAME = "username";
 
 
-    private MagicCreateBinding binding;
-    private String domain;
-    private String username;
-    private String preAuth;
-    private FirebaseAuth mAuth;
+    public MagicCreateBinding binding;
+    public String domain;
+    public String username;
+    public String preAuth;
+    public FirebaseAuth mAuth;
 
     @Override
     protected void refreshUiReal() {
@@ -111,7 +119,13 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                     binding.etOtp.setError(null);
                     verifyCode(binding.etOtp.getText().toString(), phoneNum);
                 } else {
+
                     binding.etOtp.setError("Enter Valid OTP");
+                    binding.etOtp.postDelayed(new Runnable() {
+                        public void run() {
+                            binding.etOtp.setError(null);
+                        }
+                    }, 3000);
                 }
 
             }
@@ -125,7 +139,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                 Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getText().length());
                 if (binding.tvCountryPicker.getText().length() != 0) {
 
-                    if (binding.etPhoneNumber.getText().length() != 10) {
+                    if (binding.etPhoneNumber.getText().length() != numbercount) {
                         binding.etPhoneNumber.setError("Please Enter Valid Phone Number");
                     } else {
                         binding.etPhoneNumber.setError(null);
@@ -134,8 +148,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                 } else {
                     binding.tvCountryPicker.setError("Please Select Your Country");
                 }
-
-
             }
         });
 
@@ -184,52 +196,52 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         }
 
 
-        binding.createAccount.setOnClickListener(v -> {
-            try {
-                final String username = binding.username.getText().toString();
-                final Jid jid;
-                final boolean fixedUsername;
-                if (this.domain != null && this.username != null) {
-                    fixedUsername = true;
-                    jid = Jid.ofLocalAndDomainEscaped(this.username, this.domain);
-                } else if (this.domain != null) {
-                    fixedUsername = false;
-                    jid = Jid.ofLocalAndDomainEscaped(username, this.domain);
-                } else {
-                    fixedUsername = false;
-                    jid = Jid.ofLocalAndDomainEscaped(username, Config.MAGIC_CREATE_DOMAIN);
-                }
-                if (!jid.getEscapedLocal().equals(jid.getLocal()) || (this.username == null && username.length() < 3)) {
-                    binding.username.setError(getString(R.string.invalid_username));
-                    binding.username.requestFocus();
-                } else {
-                    binding.username.setError(null);
-                    Account account = xmppConnectionService.findAccountByJid(jid);
-                    if (account == null) {
-                        account = new Account(jid, CryptoHelper.createPassword(new SecureRandom()));
-                        account.setOption(Account.OPTION_REGISTER, true);
-                        account.setOption(Account.OPTION_DISABLED, true);
-                        account.setOption(Account.OPTION_MAGIC_CREATE, true);
-                        account.setOption(Account.OPTION_FIXED_USERNAME, fixedUsername);
-                        if (this.preAuth != null) {
-                            account.setKey(Account.PRE_AUTH_REGISTRATION_TOKEN, this.preAuth);
-                        }
-                        xmppConnectionService.createAccount(account);
-                    }
-                    Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
-                    intent.putExtra("jid", account.getJid().asBareJid().toString());
-                    intent.putExtra("init", true);
-                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                    Toast.makeText(MagicCreateActivity.this, R.string.secure_password_generated, Toast.LENGTH_SHORT).show();
-                    StartConversationActivity.addInviteUri(intent, getIntent());
-                    startActivity(intent);
-                    finish();
-                }
-            } catch (IllegalArgumentException e) {
-                binding.username.setError(getString(R.string.invalid_username));
-                binding.username.requestFocus();
-            }
-        });
+//        binding.createAccount.setOnClickListener(v -> {
+//            try {
+//                final String username = binding.username.getText().toString();
+//                final Jid jid;
+//                final boolean fixedUsername;
+//                if (this.domain != null && this.username != null) {
+//                    fixedUsername = true;
+//                    jid = Jid.ofLocalAndDomainEscaped(this.username, this.domain);
+//                } else if (this.domain != null) {
+//                    fixedUsername = false;
+//                    jid = Jid.ofLocalAndDomainEscaped(username, this.domain);
+//                } else {
+//                    fixedUsername = false;
+//                    jid = Jid.ofLocalAndDomainEscaped(username, Config.MAGIC_CREATE_DOMAIN);
+//                }
+//                if (!jid.getEscapedLocal().equals(jid.getLocal()) || (this.username == null && username.length() < 3)) {
+//                    binding.username.setError(getString(R.string.invalid_username));
+//                    binding.username.requestFocus();
+//                } else {
+//                    binding.username.setError(null);
+//                    Account account = xmppConnectionService.findAccountByJid(jid);
+//                    if (account == null) {
+//                        account = new Account(jid, CryptoHelper.createPassword(new SecureRandom()));
+//                        account.setOption(Account.OPTION_REGISTER, true);
+//                        account.setOption(Account.OPTION_DISABLED, true);
+//                        account.setOption(Account.OPTION_MAGIC_CREATE, true);
+//                        account.setOption(Account.OPTION_FIXED_USERNAME, fixedUsername);
+//                        if (this.preAuth != null) {
+//                            account.setKey(Account.PRE_AUTH_REGISTRATION_TOKEN, this.preAuth);
+//                        }
+//                        xmppConnectionService.createAccount(account);
+//                    }
+//                    Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
+//                    intent.putExtra("jid", account.getJid().asBareJid().toString());
+//                    intent.putExtra("init", true);
+//                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+//                    Toast.makeText(MagicCreateActivity.this, R.string.secure_password_generated, Toast.LENGTH_SHORT).show();
+//                    StartConversationActivity.addInviteUri(intent, getIntent());
+//                    startActivity(intent);
+//                    finish();
+//                }
+//            } catch (IllegalArgumentException e) {
+//                binding.username.setError(getString(R.string.invalid_username));
+//                binding.username.requestFocus();
+//            }
+//        });
 
 
         binding.username.addTextChangedListener(this);
@@ -294,6 +306,9 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         }
     }
 
+    int numbercount;
+
+    @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onSelectCountry(Country country) {
 
@@ -302,7 +317,38 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
 
         binding.tvCountryPicker.setText("" + country.getName());
         binding.tvCountryCode.setText("+" + arrOfStr[1]);
-        binding.etPhoneNumber.requestFocus();
+
+        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
+
+        String isoCode = country.getCode();
+
+        try {
+            String exampleNumber = String.valueOf(phoneNumberUtil.getExampleNumber(isoCode).getNationalNumber());
+
+            int phoneLength = exampleNumber.length();
+
+            StringBuilder examplenum = new StringBuilder("X");
+
+            for (int i = 1; i < phoneLength; i++) {
+                examplenum.append("X");
+
+            }
+            numbercount = phoneLength;
+
+            InputFilter[] filterArray = new InputFilter[1];
+            filterArray[0] = new InputFilter.LengthFilter(phoneLength);
+
+            binding.etPhoneNumber.setFilters(filterArray);
+            binding.etPhoneNumber.setText("");
+            binding.etPhoneNumber.setHint(examplenum.toString());
+
+            binding.etPhoneNumber.requestFocus();
+        } catch (Exception e) {
+            e.printStackTrace();
+
+            binding.etPhoneNumber.setText("");
+            binding.etPhoneNumber.requestFocus();
+        }
     }
 
 
@@ -312,10 +358,10 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     public void MoveToVerify() {
 
         phoneNum = binding.tvCountryCode.getText().toString() + binding.etPhoneNumber.getText().toString();
+        Log.e("CUSTOM______", "MoveToVerify: " + phoneNum);
         sendVerificationCode(phoneNum);
 
-        binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
-        binding.layoutVerify.setVisibility(View.VISIBLE);
+
     }
 
 
@@ -343,6 +389,10 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             resendToken = forceResendingToken;
+            binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
+            binding.layoutVerify.setVisibility(View.VISIBLE);
+
+            Log.e("CUSTOM________", "onCodeSent: ");
 
 
         }
@@ -352,8 +402,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
             final String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
                 binding.etOtp.setText(code);
-
-
                 verifyCode(code, phoneNum);
             }
         }
@@ -365,18 +413,67 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     };
 
 
-    private void signInWithCredential(PhoneAuthCredential credential, String phoneNum) {
+    public void signInWithCredential(PhoneAuthCredential credential, String phoneNum) {
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override
                     public void onComplete(@NonNull Task<AuthResult> task) {
                         if (task.isSuccessful()) {
 
-                            binding.username.setText("" + phoneNum);
+//                            binding.username.setText("" + phoneNum);
 
-                            binding.layoutVerify.setVisibility(View.INVISIBLE);
-                            binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
-                            binding.layoutPickUsername.setVisibility(View.VISIBLE);
+//                            binding.layoutVerify.setVisibility(View.INVISIBLE);
+//                            binding.layoutMobileNumber.setVisibility(View.INVISIBLE);
+
+
+                            String[] arrOfStr = phoneNum.split(Pattern.quote("+"));
+                            username = arrOfStr[1];
+
+                            try {
+
+                                final Jid jid;
+                                final boolean fixedUsername;
+                                if (domain != null && username != null) {
+                                    fixedUsername = true;
+                                    jid = Jid.ofLocalAndDomainEscaped(username, domain);
+                                } else if (domain != null) {
+                                    fixedUsername = false;
+                                    jid = Jid.ofLocalAndDomainEscaped(username, domain);
+                                } else {
+                                    fixedUsername = false;
+                                    jid = Jid.ofLocalAndDomainEscaped(username, Config.MAGIC_CREATE_DOMAIN);
+                                }
+                                if ((username == null && username.length() < 3)) {
+                                    binding.username.setError(getString(R.string.invalid_username));
+                                    binding.username.requestFocus();
+                                } else {
+                                    binding.username.setError(null);
+                                    Account account = xmppConnectionService.findAccountByJid(jid);
+                                    if (account == null) {
+                                        account = new Account(jid, CryptoHelper.createPassword(new SecureRandom()));
+                                        account.setOption(Account.OPTION_REGISTER, true);
+                                        account.setOption(Account.OPTION_DISABLED, true);
+                                        account.setOption(Account.OPTION_MAGIC_CREATE, true);
+                                        account.setOption(Account.OPTION_FIXED_USERNAME, fixedUsername);
+                                        if (preAuth != null) {
+                                            account.setKey(Account.PRE_AUTH_REGISTRATION_TOKEN, preAuth);
+                                        }
+                                        xmppConnectionService.createAccount(account);
+                                    }
+                                    Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
+                                    intent.putExtra("jid", account.getJid().asBareJid().toString());
+                                    intent.putExtra("init", true);
+                                    intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                    Toast.makeText(MagicCreateActivity.this, R.string.secure_password_generated, Toast.LENGTH_SHORT).show();
+                                    StartConversationActivity.addInviteUri(intent, getIntent());
+                                    startActivity(intent);
+                                    finish();
+                                }
+                            } catch (IllegalArgumentException e) {
+                                binding.username.setError(getString(R.string.invalid_username));
+                                binding.username.requestFocus();
+                            }
+
 
                         } else {
                             Toast.makeText(MagicCreateActivity.this, task.getException().getMessage(), Toast.LENGTH_LONG).show();

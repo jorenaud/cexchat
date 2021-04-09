@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.content.IntentSender;
 import android.content.SharedPreferences;
 import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
@@ -153,6 +154,13 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
                 return;
             }
+
+            if (binding.accountUsername.getText().toString().length()==0) {
+              binding.accountUsername.setError("Username is Required");
+                return;
+            }
+
+
             final boolean registerNewAccount;
             if (mForceRegister != null) {
                 registerNewAccount = mForceRegister;
@@ -163,6 +171,35 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 binding.accountJidLayout.setError(getString(R.string.invalid_username));
                 removeErrorsOnAllBut(binding.accountJidLayout);
                 binding.accountJid.requestFocus();
+                return;
+            }
+            else if(!binding.accountPassword.getText().toString().equals( binding.accountConfirmPassword.getText().toString())){
+
+                binding.accountPassword.setError("Both Passwords are not matched");
+                binding.accountConfirmPassword.setError("Both Passwords are not matched");
+//                removeErrorsOnAllBut(binding.accountPasswordLayout);
+                binding.accountPassword.requestFocus();
+                return;
+            }
+
+            else if (binding.accountUsername.getText().toString().length() ==0) {
+                binding.accountUsername.setError("Username is Required");
+                binding.accountUsername.requestFocus();
+                return;
+            }
+            else if (binding.accountPassword.getText().toString().length() ==0) {
+                binding.accountPassword.setError("Account Passwords must not be empty");
+                binding.accountPassword.requestFocus();
+                return;
+            }
+            else if (binding.accountConfirmPassword.getText().toString().length() ==0) {
+                binding.accountConfirmPassword.setError("Account Passwords must not be empty");
+                binding.accountPassword.requestFocus();
+                return;
+            }
+            else if (binding.accountUsername.getText().toString().length() ==0) {
+                binding.accountUsername.setError("Username must not be empty");
+                binding.accountUsername.requestFocus();
                 return;
             }
 
@@ -506,6 +543,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
     protected void updateSaveButton() {
         boolean accountInfoEdited = accountInfoEdited();
 
+
+
         if (accountInfoEdited && !mInitMode) {
             this.binding.saveButton.setText(R.string.save);
             this.binding.saveButton.setEnabled(true);
@@ -522,7 +561,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         } else if (torNeedsStart(mAccount)) {
             this.binding.saveButton.setEnabled(true);
             this.binding.saveButton.setText(R.string.start_orbot);
-        } else {
+        }
+        else {
             this.binding.saveButton.setEnabled(true);
             if (!mInitMode) {
                 if (mAccount != null && mAccount.isOnlineAndConnected()) {
@@ -550,6 +590,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     this.binding.saveButton.setText(R.string.next);
                 }
             }
+        }
+
+        if(binding.saveButton.isEnabled()){
+            binding.saveButton.setTextColor(Color.parseColor("#f9b207"));
+        }
+        else
+        {
+            binding.saveButton.setTextColor(Color.parseColor("#ff616161"));
         }
     }
 
@@ -602,6 +650,9 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         binding.accountJid.addTextChangedListener(this.mTextWatcher);
         binding.accountJid.setOnFocusChangeListener(this.mEditTextFocusListener);
         this.binding.accountPassword.addTextChangedListener(this.mTextWatcher);
+
+
+
 
         this.binding.avater.setOnClickListener(this.mAvatarClickListener);
         this.binding.hostname.addTextChangedListener(mTextWatcher);
@@ -730,7 +781,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         SharedPreferences preferences = getPreferences();
         mUseTor = QuickConversationsService.isConversations() && preferences.getBoolean("use_tor", getResources().getBoolean(R.bool.use_tor));
         this.mShowOptions = mUseTor || (QuickConversationsService.isConversations() && preferences.getBoolean("show_connection_options", getResources().getBoolean(R.bool.show_connection_options)));
-        this.binding.namePort.setVisibility(mShowOptions ? View.VISIBLE : View.GONE);
+//        this.binding.namePort.setVisibility(mShowOptions ? View.VISIBLE : View.GONE);
         if (mForceRegister != null) {
             this.binding.accountRegisterNew.setVisibility(View.GONE);
         }
@@ -738,6 +789,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
     @Override
     public void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
         if (intent != null && intent.getData() != null) {
             final XmppUri uri = new XmppUri(intent.getData());
             if (xmppConnectionServiceBound) {
