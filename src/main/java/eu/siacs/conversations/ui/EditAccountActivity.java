@@ -101,6 +101,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         deleteAccountAndReturnIfNecessary();
         finish();
     };
+
     private final UiCallback<Avatar> mAvatarFetchCallback = new UiCallback<Avatar>() {
 
         @Override
@@ -122,12 +123,17 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         @Override
         public void onClick(final View view) {
             if (mAccount != null) {
-                final Intent intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
+
+                final Intent intent = new Intent( getApplicationContext(),SelectProfileType.class);
+
+
+//                final Intent intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
                 intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toEscapedString());
                 startActivity(intent);
             }
         }
     };
+
     private String messageFingerprint;
     private boolean mFetchingAvatar = false;
     private Toast mFetchingMamPrefsToast;
@@ -489,7 +495,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
                 intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toEscapedString());
             } else {
-                intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
+//                intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
+                intent = new Intent(getApplicationContext(), SelectProfileType.class);
                 intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toEscapedString());
                 intent.putExtra("setup", true);
             }
@@ -641,6 +648,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
             return null;
         }
     }
+
+
 
     @Override
     protected void onCreate(final Bundle savedInstanceState) {

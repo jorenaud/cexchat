@@ -95,12 +95,10 @@ public class MemorizingActivity extends AppCompatActivity implements OnClickList
 		dialog.dismiss();
 		switch (btnId) {
 		case DialogInterface.BUTTON_POSITIVE:
-			decision = MTMDecision.DECISION_ALWAYS;
+			case DialogInterface.BUTTON_NEUTRAL:
+				decision = MTMDecision.DECISION_ALWAYS;
 			break;
-		case DialogInterface.BUTTON_NEUTRAL:
-			decision = MTMDecision.DECISION_ONCE;
-			break;
-		default:
+			default:
 			decision = MTMDecision.DECISION_ABORT;
 		}
 		sendDecision(decision);

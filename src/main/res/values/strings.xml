@@ -966,5 +966,6 @@
     <string name="privacy_policy">https://stackoverflow.com/questions/15475907/make-parts-of-textview-clickable-not-url</string>
     <string name="resend_otp">Didn\'t get OTP? <b>Resend OTP</b></string>
     <string name="otp_resend_success">OTP sent to your registered mobile number successfully</string>
+    <string name="select_user_type">Select User Type</string>
 
 </resources>
