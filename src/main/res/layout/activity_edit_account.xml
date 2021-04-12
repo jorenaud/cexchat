@@ -242,6 +242,8 @@
                     android:buttonTint="@color/white"
                     android:text="@string/register_account"
                     android:textColor="@color/white"
+                    android:checked="true"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_confirm_password_layout" />
 

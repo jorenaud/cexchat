@@ -299,11 +299,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 if (mAccount.isOptionSet(Account.OPTION_MAGIC_CREATE)) {
                     mAccount.setOption(Account.OPTION_MAGIC_CREATE, mAccount.getPassword().contains(password));
                 }
+
+//                Registration
                 mAccount.setJid(jid);
                 mAccount.setPort(numericPort);
                 mAccount.setHostname(hostname);
                 binding.accountJidLayout.setError(null);
                 mAccount.setPassword(password);
+                Log.e("king--->", "onClick: update" );
                 mAccount.setOption(Account.OPTION_REGISTER, registerNewAccount);
                 if (!xmppConnectionService.updateAccount(mAccount)) {
                     Toast.makeText(EditAccountActivity.this, R.string.unable_to_update_account, Toast.LENGTH_SHORT).show();
@@ -319,6 +322,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 mAccount = new Account(jid.asBareJid(), password);
                 mAccount.setPort(numericPort);
                 mAccount.setHostname(hostname);
+                Log.e("king--->", "onClick: creATE" );
                 mAccount.setOption(Account.OPTION_USETLS, true);
                 mAccount.setOption(Account.OPTION_USECOMPRESSION, true);
                 mAccount.setOption(Account.OPTION_REGISTER, registerNewAccount);
@@ -1332,6 +1336,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     (dialog, which) -> {
                         String rc = input.getText().toString();
                         data.put("username", account.getUsername());
+                        data.put("name", account.getDisplayName());
                         data.put("password", account.getPassword());
                         data.put("ocr", rc);
                         data.submit();

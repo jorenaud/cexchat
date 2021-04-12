@@ -449,6 +449,8 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                                 } else {
                                     binding.username.setError(null);
                                     Account account = xmppConnectionService.findAccountByJid(jid);
+//                                    ?kishan
+
                                     if (account == null) {
                                         account = new Account(jid, CryptoHelper.createPassword(new SecureRandom()));
                                         account.setOption(Account.OPTION_REGISTER, true);
@@ -458,6 +460,8 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                                         if (preAuth != null) {
                                             account.setKey(Account.PRE_AUTH_REGISTRATION_TOKEN, preAuth);
                                         }
+
+                                        Log.e("CUSTOM----->>>", "Account:  magic "+jid + "---");
                                         xmppConnectionService.createAccount(account);
                                     }
                                     Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
@@ -485,6 +489,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
 
     private void verifyCode(String code, String phoneNum) {
         PhoneAuthCredential credential = PhoneAuthProvider.getCredential(verificationId, code);
+
         signInWithCredential(credential, phoneNum);
     }
 

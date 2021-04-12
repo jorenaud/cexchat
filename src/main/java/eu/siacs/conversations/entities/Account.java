@@ -92,8 +92,10 @@ public class Account extends AbstractEntity implements AvatarService.Avatarable 
     private String presenceStatusMessage = null;
 
     public Account(final Jid jid, final String password) {
+
         this(java.util.UUID.randomUUID().toString(), jid,
                 password, 0, null, "", null, null, null, 5222, Presence.Status.ONLINE, null);
+        Log.e("CUSTOM----->>>", "Account: "+jid + "---"+displayName);
     }
 
     private Account(final String uuid, final Jid jid,

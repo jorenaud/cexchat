@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <layout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_marginEnd="-2dp"
+    android:layout_marginBottom="-2dp"
     xmlns:tools="http://schemas.android.com/tools">
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -9,30 +11,30 @@
         android:background="@drawable/img_signup_">
 
         <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/layout_pick_username"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:id="@+id/layout_pick_username"
-            android:visibility="gone"
-            android:orientation="vertical" >
+            android:orientation="vertical"
+            android:visibility="gone">
 
-<!--            <include-->
-<!--                android:id="@+id/toolbar"-->
-<!--                layout="@layout/toolbar"-->
-<!--                app:layout_constraintEnd_toEndOf="parent"-->
-<!--                app:layout_constraintStart_toStartOf="parent"-->
-<!--                app:layout_constraintTop_toTopOf="parent" />-->
+            <!--            <include-->
+            <!--                android:id="@+id/toolbar"-->
+            <!--                layout="@layout/toolbar"-->
+            <!--                app:layout_constraintEnd_toEndOf="parent"-->
+            <!--                app:layout_constraintStart_toStartOf="parent"-->
+            <!--                app:layout_constraintTop_toTopOf="parent" />-->
 
 
             <TextView
                 android:id="@+id/title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:layout_marginTop="20dp"
                 android:fontFamily="@raw/semibold"
                 android:gravity="center"
                 android:text="@string/pick_your_username"
                 android:textColor="@color/white"
                 android:textSize="27sp"
-                android:layout_marginTop="20dp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />
@@ -44,9 +46,9 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="20dp"
                 android:layout_marginEnd="20dp"
-                android:text="@string/magic_create_text"
                 android:fontFamily="@raw/regular"
                 android:gravity="center"
+                android:text="@string/magic_create_text"
                 android:textColor="@color/white"
                 android:textSize="15sp"
                 app:layout_constraintEnd_toEndOf="parent"
@@ -58,12 +60,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
-                android:text="@string/your_full_jid_will_be"
-                android:visibility="invisible"
                 android:fontFamily="@raw/regular"
                 android:gravity="center"
+                android:text="@string/your_full_jid_will_be"
                 android:textColor="@color/white"
                 android:textSize="15sp"
+                android:visibility="invisible"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/username" />
@@ -76,17 +78,17 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="25dp"
                 android:layout_marginEnd="20dp"
-                android:enabled="false"
                 android:background="@drawable/bg_edittext"
+                android:enabled="false"
                 android:fontFamily="@raw/bold"
                 android:gravity="center_vertical"
+                android:hint="@string/username_hint"
+                android:inputType="textNoSuggestions"
                 android:paddingLeft="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="@color/white"
                 android:textColorHint="@color/white"
                 android:textSize="14sp"
-                android:hint="@string/username_hint"
-                android:inputType="textNoSuggestions"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/instructions" />
@@ -153,11 +155,11 @@
                 android:layout_marginStart="20dp"
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
+                android:fontFamily="@raw/regular"
+                android:gravity="center"
                 android:text="@string/whats_my_num"
                 android:textColor="@color/white"
                 android:textSize="15sp"
-                android:fontFamily="@raw/regular"
-                android:gravity="center"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView" />
@@ -169,30 +171,28 @@
                 android:layout_marginStart="30dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginEnd="30dp"
-                android:hint="Select Country"
-                android:textColorHint="@color/white"
-                android:drawableEnd="@drawable/ic_down_arrow"
                 android:background="@drawable/bg_edittext"
+                android:drawableEnd="@drawable/ic_down_arrow"
                 android:fontFamily="@raw/bold"
                 android:gravity="center_vertical"
+                android:hint="Select Country"
                 android:paddingLeft="20dp"
                 android:paddingEnd="20dp"
                 android:textColor="@color/white"
+                android:textColorHint="@color/white"
                 android:textSize="14sp"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/textView2" />
 
 
-
-
             <LinearLayout
                 android:id="@+id/linearLayout2"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_marginStart="40dp"
+                android:layout_marginStart="30dp"
                 android:layout_marginTop="20dp"
-                android:layout_marginEnd="40dp"
+                android:layout_marginEnd="30dp"
                 android:weightSum="4"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
@@ -218,10 +218,8 @@
                     android:layout_weight="3.5"
                     android:fontFamily="@raw/extrabold"
                     android:gravity="center"
-                    android:hint="XXX XXX XXXX "
-
-                    android:letterSpacing="0.25"
                     android:inputType="phone"
+                    android:letterSpacing="0.25"
                     android:textColorHint="@color/emoji_gray20" />
 
             </LinearLayout>
@@ -242,7 +240,6 @@
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toBottomOf="@+id/linearLayout2" />
-
 
 
             <TextView
@@ -321,8 +318,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginBottom="20dp"
                 android:text="VERIFY"
-                app:layout_constraintBottom_toBottomOf="parent"
-               />
+                app:layout_constraintBottom_toBottomOf="parent" />
         </androidx.constraintlayout.widget.ConstraintLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>
