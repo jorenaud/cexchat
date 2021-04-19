@@ -1142,36 +1142,36 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 this.binding.serverInfoPush.setText(R.string.server_info_unavailable);
             }
             final long pgpKeyId = this.mAccount.getPgpId();
-            if (pgpKeyId != 0 && Config.supportOpenPgp()) {
-                OnClickListener openPgp = view -> launchOpenKeyChain(pgpKeyId);
-                OnClickListener delete = view -> showDeletePgpDialog();
-                this.binding.pgpFingerprintBox.setVisibility(View.VISIBLE);
-                this.binding.pgpFingerprint.setText(OpenPgpUtils.convertKeyIdToHex(pgpKeyId));
-                this.binding.pgpFingerprint.setOnClickListener(openPgp);
-                if ("pgp".equals(messageFingerprint)) {
-                    this.binding.pgpFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption_Highlight);
-                }
-                this.binding.pgpFingerprintDesc.setOnClickListener(openPgp);
-                this.binding.actionDeletePgp.setOnClickListener(delete);
-            } else {
-                this.binding.pgpFingerprintBox.setVisibility(View.GONE);
-            }
-            final String ownAxolotlFingerprint = this.mAccount.getAxolotlService().getOwnFingerprint();
-            if (ownAxolotlFingerprint != null && Config.supportOmemo()) {
-                this.binding.axolotlFingerprintBox.setVisibility(View.VISIBLE);
-                if (ownAxolotlFingerprint.equals(messageFingerprint)) {
-                    this.binding.ownFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption_Highlight);
-                    this.binding.ownFingerprintDesc.setText(R.string.omemo_fingerprint_selected_message);
-                } else {
-                    this.binding.ownFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption);
-                    this.binding.ownFingerprintDesc.setText(R.string.omemo_fingerprint);
-                }
-                this.binding.axolotlFingerprint.setText(CryptoHelper.prettifyFingerprint(ownAxolotlFingerprint.substring(2)));
-                this.binding.actionCopyAxolotlToClipboard.setVisibility(View.VISIBLE);
-                this.binding.actionCopyAxolotlToClipboard.setOnClickListener(v -> copyOmemoFingerprint(ownAxolotlFingerprint));
-            } else {
-                this.binding.axolotlFingerprintBox.setVisibility(View.GONE);
-            }
+//            if (pgpKeyId != 0 && Config.supportOpenPgp()) {
+//                OnClickListener openPgp = view -> launchOpenKeyChain(pgpKeyId);
+//                OnClickListener delete = view -> showDeletePgpDialog();
+//                this.binding.pgpFingerprintBox.setVisibility(View.VISIBLE);
+//                this.binding.pgpFingerprint.setText(OpenPgpUtils.convertKeyIdToHex(pgpKeyId));
+//                this.binding.pgpFingerprint.setOnClickListener(openPgp);
+//                if ("pgp".equals(messageFingerprint)) {
+//                    this.binding.pgpFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption_Highlight);
+//                }
+//                this.binding.pgpFingerprintDesc.setOnClickListener(openPgp);
+//                this.binding.actionDeletePgp.setOnClickListener(delete);
+//            } else {
+//                this.binding.pgpFingerprintBox.setVisibility(View.GONE);
+//            }
+//            final String ownAxolotlFingerprint = this.mAccount.getAxolotlService().getOwnFingerprint();
+//            if (ownAxolotlFingerprint != null && Config.supportOmemo()) {
+//                this.binding.axolotlFingerprintBox.setVisibility(View.VISIBLE);
+//                if (ownAxolotlFingerprint.equals(messageFingerprint)) {
+//                    this.binding.ownFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption_Highlight);
+//                    this.binding.ownFingerprintDesc.setText(R.string.omemo_fingerprint_selected_message);
+//                } else {
+//                    this.binding.ownFingerprintDesc.setTextAppearance(this, R.style.TextAppearance_Conversations_Caption);
+//                    this.binding.ownFingerprintDesc.setText(R.string.omemo_fingerprint);
+//                }
+//                this.binding.axolotlFingerprint.setText(CryptoHelper.prettifyFingerprint(ownAxolotlFingerprint.substring(2)));
+//                this.binding.actionCopyAxolotlToClipboard.setVisibility(View.VISIBLE);
+//                this.binding.actionCopyAxolotlToClipboard.setOnClickListener(v -> copyOmemoFingerprint(ownAxolotlFingerprint));
+//            } else {
+//                this.binding.axolotlFingerprintBox.setVisibility(View.GONE);
+//            }
             boolean hasKeys = false;
             binding.otherDeviceKeys.removeAllViews();
             for (XmppAxolotlSession session : mAccount.getAxolotlService().findOwnSessions()) {
