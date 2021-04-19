@@ -3,6 +3,7 @@ package eu.siacs.conversations.ui;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
 import android.view.View;
 import android.widget.CheckBox;
 import android.widget.TextView;
@@ -33,6 +34,7 @@ public class SelectProfileType extends XmppActivity implements XmppConnectionSer
 
     private boolean mInitialAccountSetup;
     private final AtomicBoolean handledExternalUri = new AtomicBoolean(false);
+    TextView tvcustomer,tvServiceprovider;
     @Override
     protected void onStart() {
         super.onStart();
@@ -60,10 +62,14 @@ public class SelectProfileType extends XmppActivity implements XmppConnectionSer
         check_service_provider = findViewById(R.id.cb_account_service);
         tv_next = findViewById(R.id.btn_next);
         lay_first = findViewById(R.id.layout_first);
+        tvServiceprovider = findViewById(R.id.tvServiceprovider);
+        tvcustomer = findViewById(R.id.tvcustomer);
         layout_second = findViewById(R.id.layout_second);
 
         check_customer.setChecked(false);
         check_service_provider.setChecked(false);
+
+        tvcustomer.setText(Html.fromHtml("I am <br>Customer"));
 
         tv_next.setOnClickListener(new View.OnClickListener() {
             @Override

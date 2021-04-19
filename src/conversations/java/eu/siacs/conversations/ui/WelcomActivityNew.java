@@ -1,10 +1,12 @@
 package eu.siacs.conversations.ui;
 
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.security.KeyChainAliasCallback;
 import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableString;
@@ -18,10 +20,26 @@ import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
-import eu.siacs.conversations.R;
+import java.util.List;
 
-public class WelcomActivityNew extends AppCompatActivity {
+import eu.siacs.conversations.R;
+import eu.siacs.conversations.entities.Account;
+import eu.siacs.conversations.services.XmppConnectionService;
+
+public class WelcomActivityNew extends XmppActivity implements XmppConnectionService.OnAccountCreated, KeyChainAliasCallback {
 TextView tv_signup,tv_privacy,tv_signin;
+    public XmppConnectionService xmppConnectionService;
+
+    @Override
+    protected void refreshUiReal() {
+
+    }
+
+    @Override
+    void onBackendConnected() {
+
+    }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -44,7 +62,8 @@ TextView tv_signup,tv_privacy,tv_signin;
         tv_signin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-               Toast.makeText(getApplicationContext(),"sign in clicked",Toast.LENGTH_SHORT).show();
+//               Toast.makeText(getApplicationContext(),"sign in clicked",Toast.LENGTH_SHORT).show();
+
 
             }
         });
@@ -67,6 +86,21 @@ TextView tv_signup,tv_privacy,tv_signin;
         tv_privacy.setMovementMethod(LinkMovementMethod.getInstance());
 
 
+
+    }
+
+    @Override
+    public void alias(@Nullable String alias) {
+
+    }
+
+    @Override
+    public void onAccountCreated(Account account) {
+
+    }
+
+    @Override
+    public void informUser(int r) {
 
     }
 }
