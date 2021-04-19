@@ -377,7 +377,7 @@ public class ManageAccountActivity extends XmppActivity implements OnAccountUpda
                     xmppConnectionService.deleteAccount(account);
                     selectedAccount = null;
                     if (xmppConnectionService.getAccounts().size() == 0 && Config.MAGIC_CREATE_DOMAIN != null) {
-                        WelcomeActivity.launch(this);
+                        WelcomActivityNew.launch(this);
                     }
                 });
         builder.setNegativeButton(getString(R.string.cancel), null);

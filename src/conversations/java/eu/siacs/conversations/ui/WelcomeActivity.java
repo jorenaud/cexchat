@@ -97,7 +97,7 @@ public class WelcomeActivity extends XmppActivity implements XmppConnectionServi
         if (this.mTheme != theme) {
             recreate();
         }
-        new InstallReferrerUtils(this);
+//        new InstallReferrerUtils(this);
     }
 
     @Override
