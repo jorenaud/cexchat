@@ -125,7 +125,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         public void onClick(final View view) {
             if (mAccount != null) {
 
-                final Intent intent = new Intent(getApplicationContext(), SelectProfileType.class);
+                final Intent intent = new Intent(getApplicationContext(), selectXenderActivity.class);
 
 
 //                final Intent intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
@@ -676,7 +676,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 if (signin) {
                     intent = new Intent(getApplicationContext(), StartConversationActivity.class);
                 } else {
-                    intent = new Intent(getApplicationContext(), SelectProfileType.class);
+                    intent = new Intent(getApplicationContext(), selectXenderActivity.class);
                 }
                 intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toEscapedString());
                 intent.putExtra("setup", true);

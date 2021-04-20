@@ -52,11 +52,16 @@ public class SelectProfileType extends XmppActivity implements XmppConnectionSer
     CheckBox check_customer, check_service_provider;
     TextView tv_next;
     ConstraintLayout lay_first,layout_second;
+    String Customer_type;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activty_select_usertype);
+
+        Intent intent = getIntent();
+        String gender = intent.getStringExtra("gender");
+        String dob = intent.getStringExtra("dob");
 
         check_customer = findViewById(R.id.cb_account_customer);
         check_service_provider = findViewById(R.id.cb_account_service);
@@ -78,15 +83,20 @@ public class SelectProfileType extends XmppActivity implements XmppConnectionSer
                     Toast.makeText(getApplicationContext(), "Please Select at least one Type", Toast.LENGTH_SHORT).show();
                     return;
                 } else if (check_customer.isChecked() && !check_service_provider.isChecked()) {
+                    Customer_type= "C";
                     Toast.makeText(getApplicationContext(), "Customer type", Toast.LENGTH_SHORT).show();
                 } else if (!check_customer.isChecked() && check_service_provider.isChecked()) {
+                    Customer_type= "P";
                     Toast.makeText(getApplicationContext(), "Provider Type", Toast.LENGTH_SHORT).show();
                 } else {
+                    Customer_type= "BOTH";
                     Toast.makeText(getApplicationContext(), "selected both", Toast.LENGTH_SHORT).show();
                 }
 
-                lay_first.setVisibility(View.INVISIBLE);
-                layout_second.setVisibility(View.VISIBLE);
+                Toast.makeText(getApplicationContext(),"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type,Toast.LENGTH_LONG).show();
+
+//                lay_first.setVisibility(View.INVISIBLE);
+//                layout_second.setVisibility(View.VISIBLE);
 
             }
         });
