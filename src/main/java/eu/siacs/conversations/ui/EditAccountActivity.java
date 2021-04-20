@@ -188,21 +188,21 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     return;
                 } else if (!binding.accountPassword.getText().toString().equals(binding.accountConfirmPassword.getText().toString())) {
 
-                    binding.accountPassword.setError("Both Passwords are not matched");
-                    binding.accountConfirmPassword.setError("Both Passwords are not matched");
+                    binding.accountPasswordLayout.setError("Both Passwords are not matched");
+                    binding.accountConfirmPasswordLayout.setError("Both Passwords are not matched");
 //                removeErrorsOnAllBut(binding.accountPasswordLayout);
                     binding.accountPassword.requestFocus();
                     return;
                 } else if (binding.accountConfirmPassword.getText().toString().length() == 0) {
-                    binding.accountConfirmPassword.setError("Account Passwords must not be empty");
-                    binding.accountPassword.requestFocus();
+                    binding.accountConfirmPasswordLayout.setError("Account Passwords must not be empty");
+                    binding.accountConfirmPassword.requestFocus();
                     return;
                 } else if (binding.accountUsername.getText().toString().length() == 0) {
                     binding.accountUsernameLayout.setError("Username is Required");
                     binding.accountUsername.requestFocus();
                     return;
                 } else if (binding.accountPassword.getText().toString().length() == 0) {
-                    binding.accountPassword.setError("Account Passwords must not be empty");
+                    binding.accountPasswordLayout.setError("Account Passwords must not be empty");
                     binding.accountPassword.requestFocus();
                     return;
                 } else if (binding.accountUsername.getText().toString().length() == 0) {

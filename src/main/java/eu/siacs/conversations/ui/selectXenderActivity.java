@@ -1,6 +1,7 @@
 package eu.siacs.conversations.ui;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.DialogFragment;
 
 import android.app.DatePickerDialog;
 import android.content.Intent;
@@ -15,9 +16,13 @@ import android.widget.DatePicker;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.google.android.material.datepicker.MaterialDatePicker;
 import com.google.android.material.textfield.TextInputLayout;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.Calendar;
+import java.util.Date;
 
 import eu.siacs.conversations.R;
 import eu.siacs.conversations.services.XmppConnectionService;
@@ -56,6 +61,7 @@ public class selectXenderActivity extends XmppActivity implements XmppConnection
         btn_next = findViewById(R.id.btn_next);
         materialTextView2 = findViewById(R.id.materialTextView2);
 
+
         tv_dob.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -68,13 +74,20 @@ public class selectXenderActivity extends XmppActivity implements XmppConnection
                         new DatePickerDialog.OnDateSetListener() {
                             @Override
                             public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
-                                tv_dob.setText(dayOfMonth + "/" + (monthOfYear + 1) + "/" + year);
+//                                tv_dob.setText(dayOfMonth + "  " + (monthOfYear + 1) + "/" + year);
+
+
+                                String strCurrentDate = dayOfMonth + "/" + (monthOfYear + 1) + "/" + year;
+
+                               tv_dob.setText( formateDateFromstring("dd/mm/yyyy","dd MMM,yyyy",strCurrentDate));
+
                             }
                         }, year, month, day);
 
                 accountdob.setError(null);
 
                 picker.show();
+
             }
         });
 
@@ -116,7 +129,6 @@ public class selectXenderActivity extends XmppActivity implements XmppConnection
         });
 
 
-
         btn_next.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -146,6 +158,27 @@ public class selectXenderActivity extends XmppActivity implements XmppConnection
 
     @Override
     public void onAccountUpdate() {
+
+    }
+
+
+    public static String formateDateFromstring(String inputFormat, String outputFormat, String inputDate){
+
+        Date parsed = null;
+        String outputDate = "";
+
+        SimpleDateFormat df_input = new SimpleDateFormat(inputFormat, java.util.Locale.getDefault());
+        SimpleDateFormat df_output = new SimpleDateFormat(outputFormat, java.util.Locale.getDefault());
+
+        try {
+            parsed = df_input.parse(inputDate);
+            outputDate = df_output.format(parsed);
+
+        } catch (ParseException e) {
+            Log.e("TAG", "ParseException - dateFormat");
+        }
+
+        return outputDate;
 
     }
 }
