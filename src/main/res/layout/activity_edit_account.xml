@@ -13,7 +13,7 @@
 
         <include
             android:id="@+id/toolbar"
-            layout="@layout/toolbar"/>
+            layout="@layout/toolbar" />
 
         <ScrollView
             android:layout_width="match_parent"
@@ -44,9 +44,9 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:hint="@string/account_settings_jabber_id"
-                    app:hintEnabled="false"
                     android:visibility="gone"
                     app:errorTextAppearance="@style/TextAppearance.Conversations.Design.Error"
+                    app:hintEnabled="false"
                     app:hintTextAppearance="@style/TextAppearance.Conversations.Design.Hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
@@ -78,29 +78,39 @@
 
                 </com.google.android.material.textfield.TextInputLayout>
 
-                <eu.siacs.conversations.ui.widget.TextInputEditText
-                    android:id="@+id/account_username"
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/account_username_layout"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="25dp"
                     android:layout_marginEnd="20dp"
-                    android:background="@drawable/bg_edittext"
-                    android:fontFamily="@raw/bold"
-                    android:gravity="center_vertical"
-                    android:hint="@string/username_hint"
-                    android:imeOptions="actionNext"
-                    android:inputType="textEmailAddress"
-                    android:paddingStart="20dp"
-                    android:paddingEnd="20dp"
-                    android:textColor="@color/white"
-                    android:textColorHint="@color/white"
-                    android:textSize="14sp"
+                    app:errorTextAppearance="@style/TextAppearance.Conversations.Design.Error"
+                    app:hintEnabled="false"
+                    app:hintTextAppearance="@style/TextAppearance.Conversations.Design.Hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_jid_layout" />
+                    app:layout_constraintTop_toBottomOf="@+id/account_jid_layout">
 
+                    <eu.siacs.conversations.ui.widget.TextInputEditText
+                        android:id="@+id/account_username"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:background="@drawable/bg_edittext"
+                        android:fontFamily="@raw/bold"
+                        android:gravity="center_vertical"
+                        android:hint="@string/username_hint"
+                        android:imeOptions="actionNext"
+                        android:inputType="textEmailAddress"
+                        android:paddingStart="20dp"
+                        android:paddingEnd="20dp"
+                        android:textColor="@color/white"
+                        android:textColorHint="@color/white"
+                        android:textSize="14sp" />
+
+                </com.google.android.material.textfield.TextInputLayout>
 
                 <com.google.android.material.textfield.TextInputLayout
                     android:id="@+id/account_password_layout"
@@ -109,11 +119,11 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:layout_marginEnd="20dp"
-                    app:hintEnabled="false"
                     android:textColorHint="@color/white"
+                    app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_username"
+                    app:layout_constraintTop_toBottomOf="@+id/account_username_layout"
                     app:passwordToggleDrawable="@drawable/visibility_toggle_drawable"
                     app:passwordToggleEnabled="true"
                     app:passwordToggleTint="@color/white">
@@ -147,12 +157,12 @@
                     android:layout_marginEnd="20dp"
                     android:textColorHint="@color/white"
                     app:endIconTint="@color/white"
+                    app:hintEnabled="false"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_password_layout"
                     app:passwordToggleDrawable="@drawable/visibility_toggle_drawable"
                     app:passwordToggleEnabled="true"
-                    app:hintEnabled="false"
                     app:passwordToggleTint="@color/white">
 
                     <eu.siacs.conversations.ui.widget.TextInputEditText
@@ -160,11 +170,11 @@
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center_horizontal"
+                        android:layout_marginTop="10dp"
                         android:background="@drawable/bg_edittext"
                         android:fontFamily="@raw/bold"
                         android:gravity="center_vertical"
                         android:hint="Confirm Password"
-                        android:layout_marginTop="10dp"
                         android:imeOptions="actionNext"
                         android:inputType="textPassword"
                         android:paddingStart="20dp"
@@ -242,9 +252,9 @@
                     android:layout_marginStart="20dp"
                     android:layout_marginTop="10dp"
                     android:buttonTint="@color/white"
+                    android:checked="true"
                     android:text="@string/register_account"
                     android:textColor="@color/white"
-                    android:checked="true"
                     android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/account_confirm_password_layout" />
@@ -812,8 +822,7 @@
                 android:background="@drawable/ic_rectangle_button_white"
                 android:enabled="false"
                 android:text="@string/save"
-                android:textColor="#ff616161"
-                />
+                android:textColor="#ff616161" />
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

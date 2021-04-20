@@ -169,7 +169,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
 
                 if (binding.accountUsername.getText().toString().length() == 0) {
-                    binding.accountUsername.setError("Username is Required");
+                    binding.accountUsernameLayout.setError("Enter Valid Phone number");
+
                     return;
                 }
 
@@ -197,7 +198,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     binding.accountPassword.requestFocus();
                     return;
                 } else if (binding.accountUsername.getText().toString().length() == 0) {
-                    binding.accountUsername.setError("Username is Required");
+                    binding.accountUsernameLayout.setError("Username is Required");
                     binding.accountUsername.requestFocus();
                     return;
                 } else if (binding.accountPassword.getText().toString().length() == 0) {
@@ -205,7 +206,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     binding.accountPassword.requestFocus();
                     return;
                 } else if (binding.accountUsername.getText().toString().length() == 0) {
-                    binding.accountUsername.setError("Username must not be empty");
+                    binding.accountUsernameLayout.setError("Username must not be empty");
                     binding.accountUsername.requestFocus();
                     return;
                 }
@@ -350,6 +351,17 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
                 Log.e("king123", "onClick: this login ");
 
+                if (binding.accountUsername.getText().toString().matches("")) {
+                    binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
+                    removeErrorsOnAllBut(binding.accountUsernameLayout);
+                    return;
+                }
+                if (binding.accountPassword.getText().toString().matches("")) {
+                    binding.accountPasswordLayout.setError(getString(R.string.password_should_not_be_empty));
+                    removeErrorsOnAllBut(binding.accountPasswordLayout);
+                    return;
+                }
+
 
                 final boolean registerNewAccount;
                 if (mForceRegister != null) {
@@ -358,7 +370,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     registerNewAccount = binding.accountRegisterNew.isChecked() && !Config.DISALLOW_REGISTRATION_IN_UI;
                 }
                 if (mUsernameMode && binding.accountUsername.getText().toString().contains("@")) {
-                    binding.accountUsername.setError(getString(R.string.invalid_username));
+                    binding.accountUsernameLayout.setError(getString(R.string.invalid_username));
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountUsername.requestFocus();
                     return;
@@ -398,7 +410,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
 
                 final Jid jid;
-                String finalusername = binding.accountUsername.getText().toString().replaceAll("[+  -]","");
+                String finalusername = binding.accountUsername.getText().toString().replaceAll("[+  -]", "");
 
 //                finalusername.replace(getString(R.string.plus), "");
 //                finalusername.replaceAll("-", "");
@@ -417,9 +429,9 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     }
                 } catch (final NullPointerException | IllegalArgumentException e) {
                     if (mUsernameMode) {
-                        binding.accountUsername.setError(getString(R.string.invalid_username));
+                        binding.accountUsernameLayout.setError(getString(R.string.invalid_username));
                     } else {
-                        binding.accountUsername.setError(getString(R.string.invalid_jid));
+                        binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
                     }
                     binding.accountUsername.requestFocus();
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
@@ -459,9 +471,9 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
                 if (jid.getLocal() == null) {
                     if (mUsernameMode) {
-                        binding.accountUsername.setError(getString(R.string.invalid_username));
+                        binding.accountUsernameLayout.setError(getString(R.string.invalid_username));
                     } else {
-                        binding.accountUsername.setError(getString(R.string.invalid_jid));
+                        binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
                     }
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountUsername.requestFocus();
@@ -483,7 +495,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     }
                 } else {
                     if (xmppConnectionService.findAccountByJid(jid) != null) {
-                        binding.accountUsername.setError(getString(R.string.account_already_exists));
+                        binding.accountUsernameLayout.setError(getString(R.string.account_already_exists));
 //                        removeErrorsOnAllBut(binding.accountJidLayout);
                         binding.accountUsername.requestFocus();
                         return;
@@ -829,6 +841,40 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         binding.accountJid.addTextChangedListener(this.mTextWatcher);
         binding.accountJid.setOnFocusChangeListener(this.mEditTextFocusListener);
 //        this.binding.accountPassword.addTextChangedListener(this.mTextWatcher);
+
+        this.binding.accountUsername.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.accountUsernameLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+
+        this.binding.accountPassword.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
+
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                binding.accountPasswordLayout.setError(null);
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
 
 
         this.binding.avater.setOnClickListener(this.mAvatarClickListener);
