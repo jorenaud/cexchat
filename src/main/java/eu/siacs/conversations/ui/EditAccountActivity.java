@@ -17,6 +17,7 @@ import android.provider.Settings;
 import android.security.KeyChain;
 import android.security.KeyChainAliasCallback;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextUtils;
 import android.text.TextWatcher;
 import android.util.Log;
@@ -164,7 +165,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
             if (!signin) {
 
-                Log.e("king123", "onClick: this registration " );
+                Log.e("king123", "onClick: this registration ");
 
 
                 if (binding.accountUsername.getText().toString().length() == 0) {
@@ -347,7 +348,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
             } else {
 
-                Log.e("king123", "onClick: this login " );
+                Log.e("king123", "onClick: this login ");
 
 
                 final boolean registerNewAccount;
@@ -397,11 +398,22 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
 
                 final Jid jid;
+                String finalusername = binding.accountUsername.getText().toString().replaceAll("[+  -]","");
+
+//                finalusername.replace(getString(R.string.plus), "");
+//                finalusername.replaceAll("-", "");
+//                finalusername.replaceAll(" ", "");
+
+
                 try {
+
+                    finalusername = finalusername + "@cexchat.com";
+
+                    Log.e("king12345", "onClick: " + finalusername);
                     if (mUsernameMode) {
-                        jid = Jid.ofEscaped(binding.accountUsername.getText().toString()+"@cexchat.com", getUserModeDomain(), null);
+                        jid = Jid.ofEscaped(finalusername, getUserModeDomain(), null);
                     } else {
-                        jid = Jid.ofEscaped(binding.accountUsername.getText().toString()+"@cexchat.com");
+                        jid = Jid.ofEscaped(finalusername);
                     }
                 } catch (final NullPointerException | IllegalArgumentException e) {
                     if (mUsernameMode) {
@@ -649,10 +661,9 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
             } else {
 //                intent = new Intent(getApplicationContext(), PublishProfilePictureActivity.class);
 
-                if(signin) {
+                if (signin) {
                     intent = new Intent(getApplicationContext(), StartConversationActivity.class);
-                }
-                else{
+                } else {
                     intent = new Intent(getApplicationContext(), SelectProfileType.class);
                 }
                 intent.putExtra(EXTRA_ACCOUNT, mAccount.getJid().asBareJid().toEscapedString());
@@ -838,6 +849,7 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
         }
         this.binding.actionEditYourName.setOnClickListener(this::onEditYourNameClicked);
 
+
     }
 
     private void onEditYourNameClicked(View view) {
@@ -926,6 +938,8 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
             signin = intent.getBooleanExtra("signin", false);
             if (signin) {
                 this.binding.accountConfirmPassword.setVisibility(View.INVISIBLE);
+                binding.accountUsername.setHint("Phone number");
+                binding.accountUsername.setInputType(InputType.TYPE_CLASS_PHONE);
                 this.binding.accountConfirmPasswordLayout.setVisibility(View.INVISIBLE);
             } else {
                 this.binding.accountConfirmPassword.setVisibility(View.VISIBLE);
@@ -948,8 +962,10 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 if (mForceRegister != null) {
                     if (mForceRegister) {
                         setTitle(R.string.register_new_account);
+                        binding.accountUsername.setHint("Username");
                     } else {
                         setTitle(R.string.add_existing_account);
+                        binding.accountUsername.setHint("Phone number");
                     }
                 } else {
                     setTitle(R.string.action_add_account);
