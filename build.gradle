@@ -94,6 +94,8 @@ dependencies {
     quicksyImplementation 'io.michaelrocks:libphonenumber-android:8.12.18'
     implementation fileTree(include: ['libwebrtc-m87.aar'], dir: 'libs')
     implementation 'org.webrtc:google-webrtc:1.0.32006'
+
+    implementation 'com.google.android:flexbox:2.0.1'
 }
 
 ext {

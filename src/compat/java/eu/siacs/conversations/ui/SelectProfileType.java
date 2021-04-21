@@ -13,6 +13,7 @@ import androidx.constraintlayout.widget.ConstraintLayout;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import eu.siacs.conversations.R;
+import eu.siacs.conversations.SelectBusinessRollandType;
 import eu.siacs.conversations.services.XmppConnectionService;
 import static eu.siacs.conversations.ui.PublishProfilePictureActivity.cropUri;
 
@@ -92,8 +93,13 @@ public class SelectProfileType extends XmppActivity implements XmppConnectionSer
                     Customer_type= "BOTH";
                     Toast.makeText(getApplicationContext(), "selected both", Toast.LENGTH_SHORT).show();
                 }
+                Intent intent = new Intent(SelectProfileType.this, SelectBusinessRollandType.class);
+                intent.putExtra("gender", gender);
+                intent.putExtra("dob", dob);
+                intent.putExtra("customertype", Customer_type);
+                startActivity(intent);
 
-                Toast.makeText(getApplicationContext(),"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type,Toast.LENGTH_LONG).show();
+//                Toast.makeText(getApplicationContext(),"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type,Toast.LENGTH_LONG).show();
 
 //                lay_first.setVisibility(View.INVISIBLE);
 //                layout_second.setVisibility(View.VISIBLE);
