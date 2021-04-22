@@ -96,6 +96,7 @@ dependencies {
     implementation 'org.webrtc:google-webrtc:1.0.32006'
 
     implementation 'com.google.android:flexbox:2.0.1'
+    implementation 'com.github.reinaldoarrosi:maskededittext:1.1.0'
 }
 
 ext {

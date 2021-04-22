@@ -115,9 +115,10 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         binding.tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                if (binding.etOtp.getText().length() == 6) {
+                String otp =   binding.etOtp.getText().toString().replaceAll("[-]", "");
+                if (otp.length() == 6) {
                     binding.etOtp.setError(null);
-                    verifyCode(binding.etOtp.getText().toString(), phoneNum);
+                    verifyCode(otp, phoneNum);
                 } else {
 
                     binding.etOtp.setError("Enter Valid OTP");
@@ -128,8 +129,12 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                     }, 3000);
                 }
 
+//                Toast.makeText(getApplicationContext(),"otp: "+otp + " ---- otp length "+ otp.length(),Toast.LENGTH_SHORT).show();
+
             }
         });
+
+
 
         intializeCountryPicker();
 
@@ -308,6 +313,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
 
     int numbercount;
 
+
     @RequiresApi(api = Build.VERSION_CODES.O)
     @Override
     public void onSelectCountry(Country country) {
@@ -461,7 +467,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
                                             account.setKey(Account.PRE_AUTH_REGISTRATION_TOKEN, preAuth);
                                         }
 
-                                        Log.e("CUSTOM----->>>", "Account:  magic "+jid + "---");
+                                        Log.e("CUSTOM----->>>", "Account:  magic " + jid + "---");
                                         xmppConnectionService.createAccount(account);
                                     }
                                     Intent intent = new Intent(MagicCreateActivity.this, EditAccountActivity.class);
