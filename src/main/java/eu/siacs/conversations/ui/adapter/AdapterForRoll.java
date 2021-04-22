@@ -68,7 +68,7 @@ public class AdapterForRoll extends RecyclerView.Adapter<AdapterForRoll.MyViewHo
         if (dataModel.get(position).isFlag()) {
             holder.text_title.setTag("selected");
             addToSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
-            holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
+            holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
             holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
             holder.text_title.setTextColor(context.getResources().getColor(R.color.green800));
         } else {
@@ -76,7 +76,7 @@ public class AdapterForRoll extends RecyclerView.Adapter<AdapterForRoll.MyViewHo
             holder.text_title.setTextColor(context.getResources().getColor(R.color.white));
             holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             removeFromSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
-            holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
+            holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
         }
 
 
@@ -90,13 +90,13 @@ public class AdapterForRoll extends RecyclerView.Adapter<AdapterForRoll.MyViewHo
                     holder.text_title.setTextColor(context.getResources().getColor(R.color.white));
                     holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                     removeFromSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
-                    holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
+                    holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
                 } else {
 //                    holder.imageView.setVisibility(View.VISIBLE);
                     holder.text_title.setTag("selected");
                     dataModel.get(position).setFlag(true);
                     addToSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
-                    holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
+                    holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
                     holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
                     holder.text_title.setTextColor(context.getResources().getColor(R.color.green800));
                 }

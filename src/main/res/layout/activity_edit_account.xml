@@ -91,19 +91,19 @@
                     app:hintTextAppearance="@style/TextAppearance.Conversations.Design.Hint"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/account_jid_layout">
+                    app:layout_constraintTop_toBottomOf="@+id/avater">
 
                     <eu.siacs.conversations.ui.widget.TextInputEditText
                         android:id="@+id/account_username"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
+                        android:layout_height="48dp"
                         android:layout_gravity="center_horizontal"
                         android:background="@drawable/bg_edittext"
                         android:fontFamily="@raw/bold"
                         android:gravity="center_vertical"
-                        android:hint="@string/username_hint"
+                        android:hint="Username"
                         android:imeOptions="actionNext"
-                        android:inputType="textEmailAddress"
+                        android:inputType="text"
                         android:paddingStart="20dp"
                         android:paddingEnd="20dp"
                         android:textColor="@color/white"

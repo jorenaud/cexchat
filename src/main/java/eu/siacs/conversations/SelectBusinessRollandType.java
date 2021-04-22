@@ -144,6 +144,7 @@ public class SelectBusinessRollandType extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 aaa.clear();
+                bbb.clear();
                 for (int i = 0; i < dataModel.size(); i++) {
                     if (dataModel.get(i).isFlag()) {
                         aaa.add(dataModel.get(i).getName());
@@ -156,7 +157,7 @@ public class SelectBusinessRollandType extends AppCompatActivity {
                     }
                 }
 
-                Toast.makeText(SelectBusinessRollandType.this,"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type+", Role: "+dataModel+", Tag: "+dataModeltag,Toast.LENGTH_LONG).show();
+                Toast.makeText(SelectBusinessRollandType.this,"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type+", Role: "+aaa.toString()+", Tag: "+bbb.toString(),Toast.LENGTH_LONG).show();
             }
         });
 
