@@ -3,24 +3,21 @@ package eu.siacs.conversations;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.DefaultItemAnimator;
 import androidx.recyclerview.widget.RecyclerView;
-
 import android.content.Intent;
 import android.os.Bundle;
+import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
-
 import com.google.android.flexbox.FlexDirection;
 import com.google.android.flexbox.FlexboxLayoutManager;
 import com.google.android.flexbox.JustifyContent;
+import com.google.android.material.textfield.TextInputLayout;
 
 import java.util.ArrayList;
-
-import eu.siacs.conversations.ui.SelectProfileType;
 import eu.siacs.conversations.ui.adapter.AdapterForRoll;
-import eu.siacs.conversations.ui.selectXenderActivity;
 
 
 public class SelectBusinessRollandType extends AppCompatActivity {
@@ -28,17 +25,20 @@ public class SelectBusinessRollandType extends AppCompatActivity {
 
     public static ArrayList<AdapterForRoll.Roll> dataModel = new ArrayList<>();
     public static ArrayList<AdapterForRoll.Roll> dataModeltag = new ArrayList<>();
-    TextView btnAddRoll, tv_selectAllRoles,tv_next;
+    TextView btnAddRoll, tv_selectAllRoles, tv_next;
     EditText et_roll;
     private static RecyclerView rolllayout;
     AdapterForRoll adapter;
 
 
-    ArrayList<String> list2 = new ArrayList<>();
     TextView btnAddTag, tv_selectAllTag;
     EditText et_tag;
     private static RecyclerView taglayout;
     AdapterForTag tagadapter;
+
+    TextView tv_error;
+
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -67,11 +67,15 @@ public class SelectBusinessRollandType extends AppCompatActivity {
         rolllayout = (RecyclerView) findViewById(R.id.rolllayout);
         tv_selectAllRoles = findViewById(R.id.tv_selectAllRoles);
         tv_next = findViewById(R.id.tv_next);
+        tv_error = findViewById(R.id.tv_error);
+
 
         btnAddTag = findViewById(R.id.btn_add_tag);
         et_tag = findViewById(R.id.et_tag);
         taglayout = (RecyclerView) findViewById(R.id.tagsLayout);
         tv_selectAllTag = findViewById(R.id.tv_selectAllTags);
+
+
 
         rolllayout.setHasFixedSize(true);
         rolllayout.setItemAnimator(new DefaultItemAnimator());
@@ -157,7 +161,34 @@ public class SelectBusinessRollandType extends AppCompatActivity {
                     }
                 }
 
-                Toast.makeText(SelectBusinessRollandType.this,"Gender: "+gender +", DOB: "+ dob+ ", CUSTOMER TYPE: "+Customer_type+", Role: "+aaa.toString()+", Tag: "+bbb.toString(),Toast.LENGTH_LONG).show();
+                if (aaa.size() == 0) {
+                    tv_error.setVisibility(View.VISIBLE);
+                    tv_error.setText("Please Select Business Role");
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_error.setVisibility(View.GONE);
+                        }
+                    }, 2000);
+                    return;
+                }
+
+                if (bbb.size() == 0) {
+                    tv_error.setVisibility(View.VISIBLE);
+                    tv_error.setText("Please Select Business Tag");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            tv_error.setVisibility(View.GONE);
+                        }
+                    }, 2000);
+                    return;
+                }
+
+                Toast.makeText(SelectBusinessRollandType.this, "Gender: " + gender + ", DOB: " + dob + ", CUSTOMER TYPE: " + Customer_type + ", Role: " + aaa.toString() + ", Tag: " + bbb.toString(), Toast.LENGTH_LONG).show();
             }
         });
 
@@ -171,7 +202,7 @@ public class SelectBusinessRollandType extends AppCompatActivity {
                     Log.e("CUSTOM---->", i + "-------->" + dataModel.get(i).getName() + "---------->" + dataModel.get(i).isFlag());
                 }
 
-                if(f)
+                if (f)
                     tv_selectAllRoles.setText("Unselect All");
                 else
                     tv_selectAllRoles.setText("Select All");
@@ -181,8 +212,6 @@ public class SelectBusinessRollandType extends AppCompatActivity {
                 Log.e("CUSTOM---->", "SUCCESS");
             }
         });
-
-
 
 
         tv_selectAllTag.setOnClickListener(new View.OnClickListener() {
@@ -196,7 +225,7 @@ public class SelectBusinessRollandType extends AppCompatActivity {
                     Log.e("CUSTOM---->", i + "-------->" + dataModeltag.get(i).getName() + "---------->" + dataModeltag.get(i).isFlag());
                 }
 
-                if(f)
+                if (f)
                     tv_selectAllTag.setText("Unselect All");
                 else
                     tv_selectAllTag.setText("Select All");
@@ -210,29 +239,29 @@ public class SelectBusinessRollandType extends AppCompatActivity {
     }
 
     public void checkSlectedData() {
-        int flag = 0 ;
+        int flag = 0;
         for (int i = 0; i < dataModel.size(); i++) {
-            if(!dataModel.get(i).isFlag()){
+            if (!dataModel.get(i).isFlag()) {
                 flag = 1;
             }
         }
-        if(flag == 0) {
+        if (flag == 0) {
             tv_selectAllRoles.setText("Unselect All");
-        } else{
+        } else {
             tv_selectAllRoles.setText("Select All");
         }
     }
 
     public void checkSlectedDataforTAG() {
-        int flag = 0 ;
+        int flag = 0;
         for (int i = 0; i < dataModeltag.size(); i++) {
-            if(!dataModeltag.get(i).isFlag()){
+            if (!dataModeltag.get(i).isFlag()) {
                 flag = 1;
             }
         }
-        if(flag == 0) {
+        if (flag == 0) {
             tv_selectAllTag.setText("Unselect All");
-        } else{
+        } else {
             tv_selectAllTag.setText("Select All");
         }
     }

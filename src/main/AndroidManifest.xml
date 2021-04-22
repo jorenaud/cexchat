@@ -65,7 +65,7 @@
         android:theme="@style/ConversationsTheme"
         tools:replace="android:label"
         tools:targetApi="q">
-        <activity android:name=".SelectBusinessRollandType"></activity>
+        <activity android:name=".SelectBusinessRollandType" />
          <activity android:name=".ui.selectXenderActivity" />
         <meta-data
             android:name="com.google.android.gms.car.application"

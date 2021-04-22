@@ -65,12 +65,12 @@ public class AdapterForTag extends RecyclerView.Adapter<AdapterForTag.MyViewHold
             holder.text_title.setTag("selected");
             addToSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
             holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
-            holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
+//            holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
             holder.text_title.setTextColor(context.getResources().getColor(R.color.green800));
         } else {
             holder.text_title.setTag("unselected");
             holder.text_title.setTextColor(context.getResources().getColor(R.color.white));
-            holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//            holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
             removeFromSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
             holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
         }
@@ -84,7 +84,7 @@ public class AdapterForTag extends RecyclerView.Adapter<AdapterForTag.MyViewHold
                     holder.text_title.setTag("unselected");
                     dataModeltag.get(position).setFlag(false);
                     holder.text_title.setTextColor(context.getResources().getColor(R.color.white));
-                    holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
+//                    holder.text_title.setCompoundDrawablesWithIntrinsicBounds(null, null, null, null);
                     removeFromSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
                     holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.bg_edittext));
                 } else {
@@ -93,7 +93,7 @@ public class AdapterForTag extends RecyclerView.Adapter<AdapterForTag.MyViewHold
                     dataModeltag.get(position).setFlag(true);
                     addToSelectedMap(String.valueOf(position), holder.text_title.getText().toString());
                     holder.layoutRoll.setBackground(ContextCompat.getDrawable(context, R.drawable.ic_rectangle_small_moreround));
-                    holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
+//                    holder.text_title.setCompoundDrawablesWithIntrinsicBounds(ContextCompat.getDrawable(context, R.drawable.ic_done), null, null, null);
                     holder.text_title.setTextColor(context.getResources().getColor(R.color.green800));
                 }
                 ((SelectBusinessRollandType)context).checkSlectedDataforTAG();
