@@ -170,6 +170,13 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
                 if (binding.accountUsername.getText().toString().length() == 0) {
                     binding.accountUsernameLayout.setError("Enter Valid Phone number");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);                        }
+                    }, 2000);
+
 
                     return;
                 }
@@ -183,6 +190,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
                 if (mUsernameMode && binding.accountJid.getText().toString().contains("@")) {
                     binding.accountJidLayout.setError(getString(R.string.invalid_username));
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                         binding.accountJidLayout.setError(null);
+                        }
+                    }, 2000);
                     removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountJid.requestFocus();
                     return;
@@ -190,24 +205,51 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
                     binding.accountPasswordLayout.setError("Both Passwords are not matched");
                     binding.accountConfirmPasswordLayout.setError("Both Passwords are not matched");
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountPasswordLayout.setError(null);
+                            binding.accountConfirmPasswordLayout.setError(null);
+                        }
+                    }, 2000);
 //                removeErrorsOnAllBut(binding.accountPasswordLayout);
                     binding.accountPassword.requestFocus();
                     return;
                 } else if (binding.accountConfirmPassword.getText().toString().length() == 0) {
                     binding.accountConfirmPasswordLayout.setError("Account Passwords must not be empty");
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountConfirmPasswordLayout.setError(null);
+                        }
+                    }, 2000);
                     binding.accountConfirmPassword.requestFocus();
                     return;
                 } else if (binding.accountUsername.getText().toString().length() == 0) {
-                    binding.accountUsernameLayout.setError("Username is Required");
+                    binding.accountUsernameLayout.setError("Phone number is Required");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);
+                        }
+                    }, 2000);
                     binding.accountUsername.requestFocus();
                     return;
                 } else if (binding.accountPassword.getText().toString().length() == 0) {
                     binding.accountPasswordLayout.setError("Account Passwords must not be empty");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountPasswordLayout.setError(null);
+                        }
+                    }, 2000);
                     binding.accountPassword.requestFocus();
-                    return;
-                } else if (binding.accountUsername.getText().toString().length() == 0) {
-                    binding.accountUsernameLayout.setError("Username must not be empty");
-                    binding.accountUsername.requestFocus();
                     return;
                 }
 
@@ -257,6 +299,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     } else {
                         binding.accountJidLayout.setError(getString(R.string.invalid_jid));
                     }
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountJidLayout.setError(null);
+                        }
+                    }, 2000);
+
                     binding.accountJid.requestFocus();
                     removeErrorsOnAllBut(binding.accountJidLayout);
                     return;
@@ -299,6 +349,16 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     } else {
                         binding.accountJidLayout.setError(getString(R.string.invalid_jid));
                     }
+
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountJidLayout.setError(null);
+                        }
+                    }, 2000);
+
                     removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountJid.requestFocus();
                     return;
@@ -323,6 +383,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 } else {
                     if (xmppConnectionService.findAccountByJid(jid) != null) {
                         binding.accountJidLayout.setError(getString(R.string.account_already_exists));
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.accountJidLayout.setError(null);
+                            }
+                        }, 2000);
                         removeErrorsOnAllBut(binding.accountJidLayout);
                         binding.accountJid.requestFocus();
                         return;
@@ -353,11 +421,25 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
 
                 if (binding.accountUsername.getText().toString().matches("")) {
                     binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);
+                        }
+                    }, 2000);
                     removeErrorsOnAllBut(binding.accountUsernameLayout);
                     return;
                 }
                 if (binding.accountPassword.getText().toString().matches("")) {
                     binding.accountPasswordLayout.setError(getString(R.string.password_should_not_be_empty));
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountPasswordLayout.setError(null);
+                        }
+                    }, 2000);
                     removeErrorsOnAllBut(binding.accountPasswordLayout);
                     return;
                 }
@@ -371,6 +453,13 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 }
                 if (mUsernameMode && binding.accountUsername.getText().toString().contains("@")) {
                     binding.accountUsernameLayout.setError(getString(R.string.invalid_username));
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);
+                        }
+                    }, 2000);
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountUsername.requestFocus();
                     return;
@@ -433,6 +522,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     } else {
                         binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
                     }
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);
+                        }
+                    }, 2000);
                     binding.accountUsername.requestFocus();
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
                     return;
@@ -475,6 +572,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                     } else {
                         binding.accountUsernameLayout.setError(getString(R.string.invalid_jid));
                     }
+
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.accountUsernameLayout.setError(null);
+                        }
+                    }, 2000);
 //                    removeErrorsOnAllBut(binding.accountJidLayout);
                     binding.accountUsername.requestFocus();
                     return;
@@ -496,6 +601,14 @@ public class EditAccountActivity extends OmemoActivity implements OnAccountUpdat
                 } else {
                     if (xmppConnectionService.findAccountByJid(jid) != null) {
                         binding.accountUsernameLayout.setError(getString(R.string.account_already_exists));
+
+                        final Handler handler = new Handler();
+                        handler.postDelayed(new Runnable() {
+                            @Override
+                            public void run() {
+                                binding.accountUsernameLayout.setError(null);
+                            }
+                        }, 2000);
 //                        removeErrorsOnAllBut(binding.accountJidLayout);
                         binding.accountUsername.requestFocus();
                         return;

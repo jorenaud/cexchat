@@ -65,6 +65,8 @@
         android:theme="@style/ConversationsTheme"
         tools:replace="android:label"
         tools:targetApi="q">
+
+
         <activity android:name=".SelectBusinessRollandType" />
          <activity android:name=".ui.selectXenderActivity" />
         <meta-data

@@ -27,7 +27,7 @@
             android:layout_marginTop="25dp"
             android:fontFamily="@raw/semibold"
             android:gravity="center"
-            android:text="Provide Your Roles"
+            android:text="Select Your Roles"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -84,7 +84,8 @@
                     <TextView
                         android:id="@+id/btn_add_role"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
+
                         android:layout_marginStart="10dp"
                         android:layout_weight="0.65"
                         android:background="@drawable/ic_rectangle_small_moreround"
@@ -122,6 +123,7 @@
                     android:text="Select All"
                     android:textColor="@color/white"
                     android:textSize="17sp"
+                    android:visibility="gone"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toBottomOf="@+id/rolllayout" />
 
@@ -150,7 +152,7 @@
             android:layout_marginTop="20dp"
             android:fontFamily="@raw/semibold"
             android:gravity="center"
-            android:text="Provide Your Tag"
+            android:text="Select Your Tag"
             android:textColor="@color/white"
             android:textSize="20sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -205,7 +207,7 @@
                     <TextView
                         android:id="@+id/btn_add_tag"
                         android:layout_width="0dp"
-                        android:layout_height="40dp"
+                        android:layout_height="35dp"
                         android:layout_marginStart="10dp"
                         android:layout_weight="0.65"
                         android:background="@drawable/ic_rectangle_small_moreround"
@@ -239,6 +241,7 @@
                     android:layout_marginTop="5dp"
                     android:background="@drawable/bg_small_transsperent_dark"
                     android:gravity="center"
+                    android:visibility="gone"
                     android:text="Select All"
                     android:textColor="@color/white"
                     android:textSize="17sp"
