@@ -35,7 +35,7 @@ public class ConversationActivity extends XmppActivity {
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView( R.layout.activity_splash);
+        setContentView(R.layout.activity_splash);
 
         this.getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
                 WindowManager.LayoutParams.FLAG_FULLSCREEN);
@@ -56,22 +56,24 @@ public class ConversationActivity extends XmppActivity {
 
     }
 
-    void  startApp () {
+    void startApp() {
         Intent intent;
         final XmppConnectionService service = xmppConnectionService;
-        if (service.getAccounts().size() == 0 && !Config.X509_VERIFICATION && Config.MAGIC_CREATE_DOMAIN != null) {
-                Log.e("CUSTOM----", "getSignUpIntent: ++++++  ===" );
+        try {
+            if (service.getAccounts().size() == 0 && !Config.X509_VERIFICATION && Config.MAGIC_CREATE_DOMAIN != null) {
+                Log.e("CUSTOM----", "getSignUpIntent: ++++++  ===");
                 intent = getSignUpIntent(ConversationActivity.this);
 
-        } else {
+            } else {
+                intent = new Intent(ConversationActivity.this, ConversationsActivity.class);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             intent = new Intent(ConversationActivity.this, ConversationsActivity.class);
         }
 
         startActivity(intent);
     }
-
-
-
 
 
     @Override

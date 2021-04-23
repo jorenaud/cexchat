@@ -1,13 +1,10 @@
 package eu.siacs.conversations.ui;
 
-import android.app.Activity;
-import android.content.DialogInterface;
+
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
-import android.hardware.ConsumerIrManager;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
 import android.text.Editable;
 import android.text.InputFilter;
 import android.text.SpannableString;
@@ -20,30 +17,18 @@ import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
-import androidx.annotation.RequiresApi;
-import androidx.appcompat.app.AlertDialog;
-import androidx.constraintlayout.widget.ConstraintLayout;
 import androidx.databinding.DataBindingUtil;
 
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
-import com.google.android.gms.tasks.TaskExecutors;
 import com.google.firebase.FirebaseException;
 import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
-import com.google.firebase.auth.FirebaseAuthSettings;
 import com.google.firebase.auth.PhoneAuthCredential;
-import com.google.firebase.auth.PhoneAuthOptions;
 import com.google.firebase.auth.PhoneAuthProvider;
-import com.google.i18n.phonenumbers.PhoneNumberUtil;
-import com.mukesh.countrypicker.Country;
-import com.mukesh.countrypicker.CountryPicker;
-import com.mukesh.countrypicker.listeners.OnCountryPickerListener;
+import com.hbb20.CountryCodePicker;
 
 import java.security.SecureRandom;
-import java.sql.Array;
-import java.util.List;
-import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
 
@@ -57,7 +42,7 @@ import eu.siacs.conversations.utils.CryptoHelper;
 import eu.siacs.conversations.utils.InstallReferrerUtils;
 import eu.siacs.conversations.xmpp.Jid;
 
-public class MagicCreateActivity extends XmppActivity implements TextWatcher, OnCountryPickerListener {
+public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 
     public static final String EXTRA_DOMAIN = "domain";
     public static final String EXTRA_PRE_AUTH = "pre_auth";
@@ -69,6 +54,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     public String username;
     public String preAuth;
     public FirebaseAuth mAuth;
+    int length = 0;
 
     @Override
     protected void refreshUiReal() {
@@ -105,6 +91,27 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         mAuth = FirebaseAuth.getInstance();
         this.binding = DataBindingUtil.setContentView(this, R.layout.magic_create);
 
+        binding.tvCountryPicker.registerCarrierNumberEditText(binding.etPhoneNumber);
+        binding.tvCountryCode.setText(binding.tvCountryPicker.getSelectedCountryCodeWithPlus());
+        length = binding.etPhoneNumber.getHint().toString().length();
+        binding.etPhoneNumber.setFilters(new InputFilter.LengthFilter[]{new InputFilter.LengthFilter(length)});
+        binding.tvCountryPicker.setNumberAutoFormattingEnabled(true);
+        binding.tvCountryPicker.setInternationalFormattingOnly(true);
+
+
+        binding.tvCountryPicker.setOnCountryChangeListener(new CountryCodePicker.OnCountryChangeListener() {
+            @Override
+            public void onCountrySelected() {
+                binding.tvCountryPicker.registerCarrierNumberEditText(binding.etPhoneNumber);
+                binding.tvCountryCode.setText(binding.tvCountryPicker.getSelectedCountryCodeWithPlus());
+                length = binding.etPhoneNumber.getHint().toString().length();
+                binding.etPhoneNumber.setFilters(new InputFilter.LengthFilter[]{new InputFilter.LengthFilter(length)});
+                binding.tvCountryPicker.setNumberAutoFormattingEnabled(true);
+                binding.tvCountryPicker.setInternationalFormattingOnly(true);
+            }
+        });
+
+
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
@@ -115,7 +122,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         binding.tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                String otp =   binding.etOtp.getText().toString().replaceAll("[-]", "");
+                String otp = binding.etOtp.getText().toString().replaceAll("[-]", "");
                 if (otp.length() == 6) {
                     binding.etOtp.setError(null);
                     verifyCode(otp, phoneNum);
@@ -135,24 +142,35 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         });
 
 
-
-        intializeCountryPicker();
-
         binding.tvNext.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getText().length());
-                if (binding.tvCountryPicker.getText().length() != 0) {
+                Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getFormattedFullNumber());
 
-                    if (binding.etPhoneNumber.getText().length() != numbercount) {
-                        binding.etPhoneNumber.setError("Please Enter Valid Phone Number");
-                    } else {
-                        binding.etPhoneNumber.setError(null);
-                        MoveToVerify();
-                    }
+                if (binding.tvCountryPicker.isValidFullNumber()) {
+                    MoveToVerify(binding.tvCountryPicker.getFullNumberWithPlus());
                 } else {
-                    binding.tvCountryPicker.setError("Please Select Your Country");
+
+                    binding.tvlayoutphone.setError("Please Enter Valid Phone Number");
+                    final Handler handler = new Handler();
+                    handler.postDelayed(new Runnable() {
+                        @Override
+                        public void run() {
+                            binding.tvlayoutphone.setError(null);
+                        }
+                    }, 2000);
+                    return;
+
                 }
+
+                //
+//                    if (binding.etPhoneNumber.getText().length() != numbercount) {
+//                        binding.etPhoneNumber.setError("Please Enter Valid Phone Number");
+//                    } else {
+//                        binding.etPhoneNumber.setError(null);
+//                        MoveToVerify();
+//                    }
+//                }
             }
         });
 
@@ -174,14 +192,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
 
         binding.tvResendOTP.setMovementMethod(LinkMovementMethod.getInstance());
 
-
-        binding.tvCountryPicker.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                binding.tvCountryPicker.setError(null);
-                showPicker();
-            }
-        });
 
 //        setSupportActionBar(this.binding.toolbar);
 
@@ -253,24 +263,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
     }
 
 
-    CountryPicker countryPicker;
-
-    public void intializeCountryPicker() {
-        CountryPicker.Builder builder =
-                new CountryPicker.Builder().with(MagicCreateActivity.this)
-                        .listener(MagicCreateActivity.this);
-
-        countryPicker = builder.build();
-    }
-
-    private void showPicker() {
-
-//            countryPicker.showBottomSheet(MainActivity.this);
-        countryPicker.showDialog(MagicCreateActivity.this);
-
-    }
-
-
     @Override
     public void onDestroy() {
         InstallReferrerUtils.markInstallReferrerExecuted(this);
@@ -311,59 +303,13 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher, On
         }
     }
 
-    int numbercount;
-
-
-    @RequiresApi(api = Build.VERSION_CODES.O)
-    @Override
-    public void onSelectCountry(Country country) {
-
-        String dialcode = country.getDialCode();
-        String[] arrOfStr = dialcode.split(Pattern.quote("+"));
-
-        binding.tvCountryPicker.setText("" + country.getName());
-        binding.tvCountryCode.setText("+" + arrOfStr[1]);
-
-        PhoneNumberUtil phoneNumberUtil = PhoneNumberUtil.getInstance();
-
-        String isoCode = country.getCode();
-
-        try {
-            String exampleNumber = String.valueOf(phoneNumberUtil.getExampleNumber(isoCode).getNationalNumber());
-
-            int phoneLength = exampleNumber.length();
-
-            StringBuilder examplenum = new StringBuilder("X");
-
-            for (int i = 1; i < phoneLength; i++) {
-                examplenum.append("X");
-
-            }
-            numbercount = phoneLength;
-
-            InputFilter[] filterArray = new InputFilter[1];
-            filterArray[0] = new InputFilter.LengthFilter(phoneLength);
-
-            binding.etPhoneNumber.setFilters(filterArray);
-            binding.etPhoneNumber.setText("");
-            binding.etPhoneNumber.setHint(examplenum.toString());
-
-            binding.etPhoneNumber.requestFocus();
-        } catch (Exception e) {
-            e.printStackTrace();
-
-            binding.etPhoneNumber.setText("");
-            binding.etPhoneNumber.requestFocus();
-        }
-    }
-
 
     String phoneNum;
     private String verificationId;
 
-    public void MoveToVerify() {
+    public void MoveToVerify(String phoneNum) {
 
-        phoneNum = binding.tvCountryCode.getText().toString() + binding.etPhoneNumber.getText().toString();
+
         Log.e("CUSTOM______", "MoveToVerify: " + phoneNum);
         sendVerificationCode(phoneNum);
 

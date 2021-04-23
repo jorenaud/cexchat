@@ -18,10 +18,10 @@
             android:label="@string/create_new_account"
             android:theme="@style/SplashTheme"
             android:launchMode="singleTask" />
-<!--        <activity-->
-<!--            android:name=".ui.MagicCreateActivity"-->
-<!--            android:label="@string/create_new_account"-->
-<!--            android:launchMode="singleTask" />-->
+        <activity
+            android:name=".ui.MagicCreateActivity"
+            android:label="@string/create_new_account"
+            android:launchMode="singleTask" />
         <activity
             android:name=".ui.EasyOnboardingInviteActivity"
             android:label="@string/invite_to_app"
