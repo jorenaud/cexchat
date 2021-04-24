@@ -112,6 +112,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         });
 
 
+
         SmsReceiver.bindListener(new SmsListener() {
             @Override
             public void messageReceived(String messageText) {
@@ -125,7 +126,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
                 String otp = binding.etOtp.getText().toString().replaceAll("[-]", "");
                 if (otp.length() == 6) {
                     binding.etOtp.setError(null);
-                    verifyCode(otp, phoneNum);
+                    verifyCode(otp, phoneNum1);
                 } else {
 
                     binding.etOtp.setError("Enter Valid OTP");
@@ -181,8 +182,8 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
             @Override
             public void onClick(View widget) {
 //             Resend OTP
-                Log.e("KING----", "onClick: " + phoneNum + "-----" + resendToken);
-                resendVerificationCode(phoneNum, resendToken);
+//                Log.e("KING----", "onClick: " + phoneNum + "-----" + resendToken);
+                resendVerificationCode(phoneNum1, resendToken);
                 binding.tvResendOTP.setText(getString(R.string.otp_resend_success));
             }
         };
@@ -304,13 +305,14 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
     }
 
 
-    String phoneNum;
+    String phoneNum1;
     private String verificationId;
 
     public void MoveToVerify(String phoneNum) {
 
 
         Log.e("CUSTOM______", "MoveToVerify: " + phoneNum);
+        phoneNum1 = phoneNum;
         sendVerificationCode(phoneNum);
 
 
@@ -354,7 +356,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
             final String code = phoneAuthCredential.getSmsCode();
             if (code != null) {
                 binding.etOtp.setText(code);
-                verifyCode(code, phoneNum);
+                verifyCode(code, phoneNum1);
             }
         }
 
