@@ -13,13 +13,6 @@
         }
       },
       "oauth_client": [
-          "client_id": "992106423513-bgifqtccmhadlvmcf05o3blug1jb24kt.apps.googleusercontent.com",
-          "client_type": 1,
-          "android_info": {
-            "package_name": "eu.siacs.conversations",
-            "certificate_hash": "d94000572b3c94afc5fbfd7e6030433ffc6314db"
-          }
-        },
         {
           "client_id": "992106423513-vn33aldq22obibfish70it04pj3bemr5.apps.googleusercontent.com",
           "client_type": 3
