@@ -28,6 +28,8 @@ import com.google.firebase.auth.PhoneAuthCredential;
 import com.google.firebase.auth.PhoneAuthProvider;
 import com.hbb20.CountryCodePicker;
 
+import org.jetbrains.annotations.NotNull;
+
 import java.security.SecureRandom;
 import java.util.concurrent.TimeUnit;
 import java.util.regex.Pattern;
@@ -113,12 +115,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 
 
 
-        SmsReceiver.bindListener(new SmsListener() {
-            @Override
-            public void messageReceived(String messageText) {
-                binding.etOtp.setText(messageText);
-            }
-        });
+        SmsReceiver.bindListener(messageText -> binding.etOtp.setText(messageText));
 
         binding.tvVerify.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -143,28 +140,25 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
         });
 
 
-        binding.tvNext.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getFormattedFullNumber());
+        binding.tvNext.setOnClickListener(v -> {
+            Log.e("CUSTOMTEXT____", "onClick: " + binding.tvCountryPicker.getFormattedFullNumber());
 
-                if (binding.tvCountryPicker.isValidFullNumber()) {
-                    MoveToVerify(binding.tvCountryPicker.getFullNumberWithPlus());
-                } else {
+            if (binding.tvCountryPicker.isValidFullNumber()) {
+                MoveToVerify(binding.tvCountryPicker.getFullNumberWithPlus());
 
-                    binding.tvlayoutphone.setError("Please Enter Valid Phone Number");
-                    final Handler handler = new Handler();
-                    handler.postDelayed(new Runnable() {
-                        @Override
-                        public void run() {
-                            binding.tvlayoutphone.setError(null);
-                        }
-                    }, 2000);
-                    return;
+            } else {
+                binding.tvlayoutphone.setError("Please Enter Valid Phone Number");
+                final Handler handler = new Handler();
+                handler.postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        binding.tvlayoutphone.setError(null);
+                    }
+                }, 2000);
 
-                }
+            }
 
-                //
+            //
 //                    if (binding.etPhoneNumber.getText().length() != numbercount) {
 //                        binding.etPhoneNumber.setError("Please Enter Valid Phone Number");
 //                    } else {
@@ -172,7 +166,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 //                        MoveToVerify();
 //                    }
 //                }
-            }
         });
 
 
@@ -309,8 +302,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
     private String verificationId;
 
     public void MoveToVerify(String phoneNum) {
-
-
         Log.e("CUSTOM______", "MoveToVerify: " + phoneNum);
         phoneNum1 = phoneNum;
         sendVerificationCode(phoneNum);
@@ -321,9 +312,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 
     PhoneAuthProvider.ForceResendingToken resendToken;
 
-
-    public void resendVerificationCode(String phoneNumber,
-                                       PhoneAuthProvider.ForceResendingToken token) {
+    public void resendVerificationCode(String phoneNumber, PhoneAuthProvider.ForceResendingToken token) {
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNumber,        // Phone number to verify
                 60,                 // Timeout duration
@@ -335,11 +324,9 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
     }
 
 
-    private PhoneAuthProvider.OnVerificationStateChangedCallbacks
-
-            mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
+    private final PhoneAuthProvider.OnVerificationStateChangedCallbacks mCallBack = new PhoneAuthProvider.OnVerificationStateChangedCallbacks() {
         @Override
-        public void onCodeSent(String s, PhoneAuthProvider.ForceResendingToken forceResendingToken) {
+        public void onCodeSent(@NotNull String s, @NotNull PhoneAuthProvider.ForceResendingToken forceResendingToken) {
             super.onCodeSent(s, forceResendingToken);
             verificationId = s;
             resendToken = forceResendingToken;
@@ -347,7 +334,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
             binding.layoutVerify.setVisibility(View.VISIBLE);
 
             Log.e("CUSTOM________", "onCodeSent: ");
-
 
         }
 
@@ -362,6 +348,7 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 
         @Override
         public void onVerificationFailed(FirebaseException e) {
+            Log.d("verification_error", e.getMessage());
             Toast.makeText(MagicCreateActivity.this, e.getMessage(), Toast.LENGTH_LONG).show();
         }
     };
@@ -449,7 +436,6 @@ public class MagicCreateActivity extends XmppActivity implements TextWatcher {
 
 
     private void sendVerificationCode(String phoneNum) {
-
         PhoneAuthProvider.getInstance().verifyPhoneNumber(
                 phoneNum,
                 60,

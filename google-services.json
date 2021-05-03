@@ -1,33 +1,41 @@
 {
   "project_info": {
-    "project_number": "992106423513",
-    "project_id": "conversation-232cd",
-    "storage_bucket": "conversation-232cd.appspot.com"
+    "project_number": "795585507474",
+    "project_id": "cexchat-58073",
+    "storage_bucket": "cexchat-58073.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:992106423513:android:ec7c032a5b9237573c4ac8",
+        "mobilesdk_app_id": "1:795585507474:android:14dbd40c1eb23d6303764b",
         "android_client_info": {
           "package_name": "eu.siacs.conversations"
         }
       },
       "oauth_client": [
         {
-          "client_id": "992106423513-vn33aldq22obibfish70it04pj3bemr5.apps.googleusercontent.com",
+          "client_id": "795585507474-uve1fjob5781vj0r6l5hl9rbqhohaij9.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "eu.siacs.conversations",
+            "certificate_hash": "4c29bdb0d33fcf2521cde018afb2d6db35e4509c"
+          }
+        },
+        {
+          "client_id": "795585507474-cp99ng77n8q2u3n8ds1l1iv2ls6jrcaa.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCKMHq6Z6NUSqiPXliy6DUkwlq1Y75-eio"
+          "current_key": "AIzaSyAWaqrXjOxxxvGj94gIXD7UEAUS-X2HW7Q"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "992106423513-vn33aldq22obibfish70it04pj3bemr5.apps.googleusercontent.com",
+              "client_id": "795585507474-cp99ng77n8q2u3n8ds1l1iv2ls6jrcaa.apps.googleusercontent.com",
               "client_type": 3
             }
           ]
